@@ -1,21 +1,19 @@
 'use strict';
 
-// Segnala alla pagina che lo script è partito (vedi il controllo di 4s nell'HTML) e attiva gli stati iniziali
+
 window.__sefty = true;
 document.documentElement.classList.add('js');
 
-/* ==========================================================================
-   Sefty - JavaScript del sito
-   1 utilità · 2 comportamenti comuni · 3 pagine interne
-   ========================================================================== */
 
-/* 1. Utilità --------------------------------------------------------------- */
+
+
+ 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const SVGNS = 'http://www.w3.org/2000/svg';
 
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
-/* Un solo ascoltatore di scroll per tutte le funzioni che ne hanno bisogno */
+ 
 const scrollHooks = [];
 let hooksTicking = false;
 
@@ -35,26 +33,21 @@ function runScrollHooks() {
 window.addEventListener('scroll', runScrollHooks, { passive: true });
 window.addEventListener('resize', runScrollHooks, { passive: true });
 
-document.addEventListener('DOMContentLoaded', () => {
-    initNav();
-    initHeader();
-    initTocDisclosure();
-    initToc();
-    initReveal();
-    initInViewAnimations();
-    initParallax();
-    initStatement();
-    initStepsProgress();
-    initVersions();
-    initNight();
-    initDay();
+function initSite() {
+    [initNav, initHeader, initTocDisclosure, initVersions, initNight, initDay,
+        initToc, initReveal, initInViewAnimations, initParallax, initStatement,
+        initStepsProgress].forEach(init => {
+        try { init(); } catch (error) { console.error(init.name, error); }
+    });
+    runScrollHooks();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSite);
+else initSite();
 
-    scrollHooks.forEach((fn) => fn());
-});
 
-/* 2. Comportamenti comuni -------------------------------------------------- */
+ 
 
-/* Menu di navigazione su mobile */
+ 
 function initNav() {
     const toggle = document.getElementById('navToggle');
     const nav = document.getElementById('siteNav');
@@ -88,7 +81,7 @@ function initNav() {
     });
 }
 
-/* Header: ombra allo scroll e barra di lettura */
+ 
 function initHeader() {
     const header = document.querySelector('.site-header');
     const bar = document.getElementById('progressBar');
@@ -104,9 +97,9 @@ function initHeader() {
     });
 }
 
-/* Comparsa dei blocchi di contenuto quando entrano nello schermo */
+ 
 function initReveal() {
-    // Nelle pagine interne marchio come "reveal" i blocchi di contenuto
+    
     if (document.querySelector('.prose, .tabpanel')) {
         const selector = [
             '.prose > section > :not(.stats):not(.rules)',
@@ -139,8 +132,8 @@ function initReveal() {
     items.forEach((el) => observer.observe(el));
 }
 
-/* Mobile: le animazioni delle illustrazioni partono quando la card è visibile,
-   perché sul touch l'hover non esiste (funziona solo tenendo premuto). */
+
+
 function initInViewAnimations() {
     const targets = Array.from(document.querySelectorAll('.card, .page-art'));
     if (!targets.length || !('IntersectionObserver' in window)) return;
@@ -170,9 +163,9 @@ function initInViewAnimations() {
     sync();
 }
 
-/* 3. Pagine interne -------------------------------------------------------- */
+ 
 
-/* Indice laterale: sezione corrente e barra di avanzamento della lettura */
+ 
 function initToc() {
     const links = Array.from(document.querySelectorAll('.toc a'));
     if (!links.length) return;
@@ -209,7 +202,7 @@ function initToc() {
     }
 }
 
-/* Illustrazione della testata: leggero effetto parallasse */
+ 
 function initParallax() {
     const art = document.querySelector('.page-art');
     if (!art || reduceMotion) return;
@@ -220,7 +213,7 @@ function initParallax() {
     });
 }
 
-/* Fascia finale: le parole si accendono man mano che si scorre */
+ 
 function initStatement() {
     document.querySelectorAll('[data-statement]').forEach((p) => {
         const section = p.closest('.statement');
@@ -253,7 +246,7 @@ function initStatement() {
     });
 }
 
-/* Passaggi numerati: evidenzia quello corrente durante lo scroll */
+ 
 function initStepsProgress() {
     const lists = Array.from(document.querySelectorAll('.steps'));
     if (!lists.length) return;
@@ -261,7 +254,7 @@ function initStepsProgress() {
     onScroll(() => {
         const line = window.innerHeight * 0.55;
         lists.forEach((list) => {
-            if (!list.offsetParent) return; // pannello nascosto
+            if (!list.offsetParent) return; 
             list.querySelectorAll('li').forEach((li) => {
                 const rect = li.getBoundingClientRect();
                 li.classList.toggle('is-current', rect.top <= line && rect.bottom > line);
@@ -270,7 +263,7 @@ function initStepsProgress() {
         });
     });
 }
-/* Funzionamento: schede e simulazioni locali, senza inviare dati. */
+ 
 function initVersions() {
     const tabs = [...document.querySelectorAll('[role="tab"]')];
     if (!tabs.length) return;
@@ -327,11 +320,23 @@ function initNight() {
             log.forEach(li => li.classList.add('done'));
         }, 3000);
     };
-    button.addEventListener('pointerdown', e => {
-        if (e.button !== 0) return;
-        button.setPointerCapture(e.pointerId); start();
-    });
-    ['pointerup','pointercancel','lostpointercapture','blur'].forEach(type => button.addEventListener(type,cancel));
+    if ('PointerEvent' in window) {
+        button.addEventListener('pointerdown', e => {
+            if (e.isPrimary === false || (e.pointerType === 'mouse' && e.button !== 0)) return;
+            e.preventDefault();
+            start();
+            try { button.setPointerCapture(e.pointerId); } catch (_) {}
+        });
+        ['pointerup', 'pointercancel'].forEach(type => window.addEventListener(type, cancel));
+        button.addEventListener('lostpointercapture', cancel);
+    } else {
+        button.addEventListener('touchstart', e => { e.preventDefault(); start(); }, {passive:false});
+        ['touchend', 'touchcancel'].forEach(type => window.addEventListener(type, cancel));
+        button.addEventListener('mousedown', e => { if(e.button === 0) start(); });
+        window.addEventListener('mouseup', cancel);
+    }
+    button.addEventListener('contextmenu', e => e.preventDefault());
+    button.addEventListener('blur', cancel);
     button.addEventListener('keydown', e => {
         if ([' ','Enter'].includes(e.key)) {e.preventDefault(); if (!e.repeat) start();}
         if (e.key === 'Escape') cancel();
@@ -348,6 +353,8 @@ function initNight() {
 function initDay() {
     const widget=document.querySelector('[data-day]'); if(!widget)return;
     const svg=widget.querySelector('[data-svg]'), range=widget.querySelector('[data-range]');
+    svg.replaceChildren();
+    svg.setAttribute('viewBox', '0 0 600 320');
     const make=(name,attrs)=>{const el=document.createElementNS(SVGNS,name);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));svg.append(el);return el;};
     const zone=make('circle',{cx:300,cy:155,r:range.value,class:'day-zone'});
     make('circle',{cx:300,cy:155,r:26,class:'day-tutor-halo'});
@@ -364,14 +371,15 @@ function initDay() {
         const message=outside?`${outside} ${outside===1?'partecipante fuori':'partecipanti fuori'} dall’area: verifica del Tutor.`:'Tutti i partecipanti sono nell’area.';
         widget.querySelector('[data-alert-text]').textContent=message;
         widget.querySelector('[data-alert]').classList.toggle('is-visible',outside>0);
-        document.getElementById('dayStatus').textContent=message;
+        const status=widget.querySelector('#dayStatus');
+        if(status) status.textContent=message;
         range.setAttribute('aria-valuetext',`Raggio illustrativo ${radius}. ${message}`);
         syncFill();
     };
-    range.addEventListener('input',update); update();
+    range.addEventListener('input',update); range.addEventListener('change',update); update();
 }
 
-/* L'indice mobile è un disclosure nativo, utilizzabile anche senza JS. */
+ 
 function initTocDisclosure() {
     const desktop = window.matchMedia('(min-width: 1024px)');
     document.querySelectorAll('.toc-disclosure').forEach(details => {

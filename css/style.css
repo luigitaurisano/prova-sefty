@@ -1,18 +1,11 @@
-/* ==========================================================================
-   Safety - foglio di stile
-   Sistema di design: sobrio, preciso, coerente.
 
-   1 Variabili · 2 Base · 3 Header · 4 Pulsanti e icone · 5 Home · 6 Card
-   7 Pagine interne · 8 Contenuti · 9 Funzionamento · 10 Fascia finale
-   11 Footer · 12 Widget · 13 Illustrazioni e animazioni · 14 Responsive
-   15 Accessibilità, stampa
-   ========================================================================== */
 
-/* 1. Variabili ----------------------------------------------------------- */
+
+ 
 :root {
     color-scheme: light;
 
-    /* Colori */
+     
     --ink: #0b1f2e;
     --text: #2c3b49;
     --muted: #5a6a79;
@@ -31,35 +24,35 @@
     --on-dark-muted: #93a4b3;
     --focus: #0b57d0;
 
-    /* Contesto (illustrazioni e riquadri) */
+     
     --tint: var(--mist-2);
     --accent: var(--signal);
     --art-solid: #ffffff;
     --art-strap: rgba(11, 31, 46, .12);
 
-    /* Raggi: controlli, riquadri, schede, blocchi grandi */
+     
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius: 16px;
     --radius-xl: 22px;
 
-    /* Ombre */
+     
     --shadow-sm: 0 1px 2px rgba(11, 31, 46, .06);
     --shadow-md: 0 1px 2px rgba(11, 31, 46, .05), 0 12px 28px -14px rgba(11, 31, 46, .2);
     --shadow-lg: 0 1px 2px rgba(11, 31, 46, .06), 0 28px 56px -28px rgba(11, 31, 46, .35);
 
-    /* Layout */
+     
     --wrap: 1200px;
     --header-h: 4.5rem;
     --section: clamp(4rem, 8vw, 6.5rem);
 
-    /* Movimento */
+     
     --ease: cubic-bezier(.22, .8, .24, 1);
 
     --font: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* 2. Base ---------------------------------------------------------------- */
+ 
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -127,7 +120,7 @@ p, li { text-wrap: pretty; }
     border: 0;
 }
 
-/* Tratteggio di cerchi concentrici: il "segnale" che si propaga (motivo del marchio) */
+ 
 .rings-dark::before,
 .rings-light::before {
     content: "";
@@ -142,7 +135,7 @@ p, li { text-wrap: pretty; }
     background: repeating-radial-gradient(circle at 96% -18%, transparent 0 64px, rgba(11, 31, 46, .05) 64px 65px);
 }
 
-/* 3. Header -------------------------------------------------------------- */
+ 
 .site-header {
     position: sticky;
     top: 0;
@@ -241,7 +234,7 @@ p, li { text-wrap: pretty; }
 .nav-toggle[aria-expanded="true"] .icon-open { opacity: 0; transform: rotate(90deg) scale(.5); }
 .nav-toggle[aria-expanded="true"] .icon-close { opacity: 1; transform: none; }
 
-/* 4. Pulsanti e icone ---------------------------------------------------- */
+ 
 .icon {
     width: 1.5rem;
     height: 1.5rem;
@@ -277,7 +270,7 @@ p, li { text-wrap: pretty; }
 .btn-line { background: var(--paper); border-color: var(--line-strong); color: var(--ink); }
 .btn-line:hover { border-color: var(--ink); }
 
-/* 5. Home ---------------------------------------------------------------- */
+ 
 .intro {
     position: relative;
     overflow: hidden;
@@ -323,7 +316,7 @@ p, li { text-wrap: pretty; }
 .intro-lead { margin-top: 1.5rem; max-width: 48ch; font-size: 1.25rem; line-height: 1.55; }
 .intro-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
 
-/* Immagine del prodotto: cornice sottile, anelli di segnale dietro */
+ 
 .product { position: relative; isolation: isolate; }
 .product-frame {
     padding: .6rem;
@@ -361,7 +354,7 @@ p, li { text-wrap: pretty; }
 .flow-caption { max-width: 40rem; margin: 0 auto 1.5rem; color: var(--muted); text-align: center; }
 .flow-diagram { display: flex; flex-direction: column; align-items: center; }
 
-/* Blocco download */
+ 
 .download {
     position: relative;
     display: flex;
@@ -377,7 +370,7 @@ p, li { text-wrap: pretty; }
 .download h2 { color: #ffffff; font-size: clamp(1.6rem, 3vw, 2rem); }
 .download p { margin-top: .5rem; color: var(--on-dark); }
 
-/* 6. Card ---------------------------------------------------------------- */
+ 
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
 .cards-5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .cards-5 > .card:nth-child(-n+3) { grid-column: span 2; }
@@ -453,7 +446,7 @@ p, li { text-wrap: pretty; }
     transform: translateX(4px);
 }
 
-/* Scheda in evidenza (Funzionamento): a tutta larghezza, scura */
+ 
 .card-primary {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -494,7 +487,7 @@ p, li { text-wrap: pretty; }
 }
 .subtiles a:hover { background: rgba(242, 154, 0, .14); border-color: var(--signal); }
 
-/* Tessere di navigazione tra gli argomenti */
+ 
 .tile {
     position: relative;
     display: flex;
@@ -530,7 +523,7 @@ p, li { text-wrap: pretty; }
 .tile-arrow .icon { width: 1.1rem; height: 1.1rem; transition: transform .3s var(--ease); }
 .tile:hover .tile-arrow .icon { transform: translateX(2px); }
 
-/* 7. Pagine interne ------------------------------------------------------ */
+ 
 .page-head {
     position: relative;
     overflow: hidden;
@@ -606,7 +599,7 @@ p, li { text-wrap: pretty; }
 .toc a:hover { color: var(--ink); padding-left: 1.25rem; }
 .toc a[aria-current="true"] { color: var(--ink); font-weight: 600; }
 
-/* 8. Contenuti ----------------------------------------------------------- */
+ 
 .prose { max-width: 56rem; }
 .prose > section { scroll-margin-top: calc(var(--header-h) + 1.5rem); }
 .prose > section + section {
@@ -644,7 +637,7 @@ p, li { text-wrap: pretty; }
 .prose .callout + p { margin-top: 1.75rem; }
 .prose strong { color: var(--ink); font-weight: 600; }
 
-/* Citazione: filetto arancione a sinistra */
+ 
 .callout {
     max-width: 50rem;
     padding: .2rem 0 .2rem 1.75rem;
@@ -675,7 +668,7 @@ p, li { text-wrap: pretty; }
     color: var(--signal-strong);
 }
 
-/* Diagrammi verticali estratti dai documenti (nodo / freccia / nodo ...) */
+ 
 .flow-label {
     max-width: 30rem;
     margin: .6rem auto 0;
@@ -699,7 +692,7 @@ p, li { text-wrap: pretty; }
 .prose > section > .flow-label,
 .prose > section > .flow-arrow { max-width: 30rem; }
 
-/* Riferimento a un file citato nel testo sorgente */
+ 
 .doc-ref {
     display: inline-block;
     margin-left: .45rem;
@@ -727,7 +720,7 @@ p, li { text-wrap: pretty; }
 .pair h2 { margin-bottom: .6rem; font-size: 1.25rem; }
 .pair p { font-size: 1rem; }
 
-/* Dati */
+ 
 .stats { margin-top: 1.5rem; border-bottom: 1px solid var(--line); }
 .stat {
     display: grid;
@@ -791,7 +784,7 @@ p, li { text-wrap: pretty; }
 .related { padding: 3.5rem 0 4rem; }
 .related-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; list-style: none; }
 
-/* 9. Funzionamento ------------------------------------------------------- */
+ 
 .tabs-bar { padding: 2.75rem 0 0; }
 .tablist { display: none; }
 .js .tablist {
@@ -860,7 +853,7 @@ p, li { text-wrap: pretty; }
 .process-notes { display: grid; gap: 1.25rem; }
 .process-grid + .widget { margin-top: 3rem; }
 
-/* Note: riquadri con filetto arancione */
+ 
 .process .callout {
     max-width: none;
     margin: 0;
@@ -910,7 +903,7 @@ p, li { text-wrap: pretty; }
 .steps li.is-past::before { background: #ffe6b8; border-color: var(--signal); }
 .steps li.is-past:not(:last-child)::after { background: repeating-linear-gradient(180deg, var(--signal) 0 5px, transparent 5px 10px); }
 
-/* 10. Fascia finale ------------------------------------------------------ */
+ 
 .statement {
     position: relative;
     overflow: hidden;
@@ -936,7 +929,7 @@ p, li { text-wrap: pretty; }
 }
 .statement-text .sw { opacity: var(--o, 1); transition: opacity .3s linear; }
 
-/* 11. Footer ------------------------------------------------------------- */
+ 
 .site-footer { position: relative; background: var(--navy-900); color: var(--on-dark); }
 .site-footer::before {
     content: "";
@@ -976,7 +969,7 @@ p, li { text-wrap: pretty; }
 .social svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
 .legal { padding: 1.25rem 0 1.75rem; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .93rem; color: var(--on-dark-muted); }
 
-/* 12. Widget interattivi ------------------------------------------------- */
+ 
 .widget {
     margin-top: 2rem;
     padding: 1.5rem;
@@ -1013,7 +1006,7 @@ p, li { text-wrap: pretty; }
 .btn-sm-line { background: var(--paper); border-color: var(--line-strong); color: var(--ink); }
 .btn-sm-line:hover { background: var(--paper); border-color: var(--ink); }
 
-/* Slider */
+ 
 input[type="range"] {
     --fill: 0%;
     -webkit-appearance: none;
@@ -1053,7 +1046,7 @@ input[type="range"]::-moz-range-thumb {
 }
 input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 999px; }
 
-/* Visione: punti di luce */
+ 
 .lights-stage {
     position: relative;
     height: 16rem;
@@ -1093,7 +1086,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .l-dot.l-hot { fill: var(--signal); }
 .l-halo { fill: var(--signal); opacity: .25; transform-box: fill-box; transform-origin: center; animation: halo 2.6s ease-in-out infinite; }
 
-/* Progetto: schema della rete */
+ 
 .eco-stage { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--mist); }
 .eco-svg { display: block; width: 100%; height: auto; }
 .eco-link { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 5 7; animation: dash-flow 1.2s linear infinite; transition: stroke .25s ease, stroke-width .25s ease; }
@@ -1120,7 +1113,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .eco-desc { margin-top: .9rem; min-height: 3.3rem; }
 .eco-desc strong { color: var(--ink); }
 
-/* Community: la rete cresce */
+ 
 .grow-stage { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--mist); }
 .grow-stage > svg { display: block; width: 100%; height: auto; }
 .mem {
@@ -1153,7 +1146,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .grow-meter { display: grid; gap: .45rem; font-size: .93rem; }
 .grow-meter .meter i { transition: transform .45s var(--ease); }
 
-/* Funzionamento (notte): pulsante da tenere premuto */
+ 
 .night-stage { display: grid; grid-template-columns: auto minmax(12rem, 1fr) minmax(0, 19rem); gap: 1.5rem 2.5rem; align-items: center; }
 .night-btn { order: 1; }
 .night-log { order: 2; }
@@ -1208,7 +1201,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .night-log li.done { color: var(--ink); font-weight: 600; }
 .night-log li.done::before { background: var(--signal); border-color: var(--signal); box-shadow: 0 0 0 4px rgba(242, 154, 0, .2); }
 
-/* Funzionamento (giorno): raggio di sicurezza */
+ 
 .day-stage { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--mist); }
 .day-stage > svg { display: block; width: 100%; height: auto; }
 .day-zone { fill: rgba(242, 154, 0, .08); stroke: var(--signal); stroke-width: 1.5; stroke-dasharray: 7 7; }
@@ -1240,21 +1233,21 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .day-controls { display: grid; gap: .5rem; margin-top: 1.1rem; }
 .day-controls label { font-weight: 600; color: var(--ink); }
 
-/* 13. Illustrazioni e animazioni ----------------------------------------- */
+ 
 .art-svg * { transform-box: fill-box; transform-origin: center; }
 .rip { opacity: .35; vector-effect: non-scaling-stroke; }
 .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .flow-line { stroke-dasharray: 5 7; }
 .bar { transform-origin: 50% 100%; }
 
-/* Nelle schede le illustrazioni si animano all'hover (o quando sono visibili su mobile) */
+ 
 :is(.card, .page-art):is(:hover, :focus-within, .is-active) .rip { animation: ripple 1.9s ease-out var(--delay, 0s) 2; }
 :is(.card, .page-art):is(:hover, :focus-within, .is-active) .pop { animation: pop .7s ease calc(var(--i, 0) * 70ms) both; }
 :is(.card, .page-art):is(:hover, :focus-within, .is-active) .draw { animation: draw .9s ease var(--delay, 0s) both; }
 :is(.card, .page-art):is(:hover, :focus-within, .is-active) .flow-line { animation: dash-flow .7s linear infinite; }
 :is(.card, .page-art):is(:hover, :focus-within, .is-active) .bar { animation: grow .7s var(--ease) calc(var(--i, 0) * 60ms) both; }
 
-/* Nelle testate le illustrazioni sono sempre in movimento, in modo discreto */
+ 
 .page-art { transform: translateY(var(--py, 0px)); animation: art-in 1s var(--ease) .3s backwards; }
 .page-art .rip { animation: ripple 3.4s ease-out var(--delay, 0s) 2; }
 .page-art .flow-line { animation: dash-flow .9s linear infinite; }
@@ -1262,12 +1255,12 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 .page-art .bar { animation: grow 1s var(--ease) calc(var(--i, 0) * 80ms + 300ms) both; }
 .page-art .pop { animation: pop-soft 3.6s ease-in-out calc(var(--i, 0) * 260ms) 1; }
 
-/* Titoli: le parole salgono una dopo l'altra */
+ 
 .hw { display: inline-block; overflow: hidden; vertical-align: top; padding: .06em 0 .16em; margin: -.06em 0 -.16em; }
 .hw > span { display: inline-block; animation: word-in .9s var(--ease) calc(var(--w, 0) * 80ms + 120ms) backwards; }
 .page-head .lead { animation: fade-up .9s var(--ease) .5s backwards; }
 
-/* Comparsa una tantum di card e contenuti */
+ 
 .js .reveal-card { opacity: 0; }
 .js .reveal-card.is-in { opacity: 1; animation: card-in .6s var(--ease) calc(var(--i, 0) * 70ms) backwards; }
 .js .reveal { opacity: 0; }
@@ -1319,12 +1312,12 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
     80% { transform: translateX(3px) rotate(1deg); }
 }
 
-/* Dissolvenza tra una pagina e l'altra (browser che la supportano) */
+ 
 @media (prefers-reduced-motion: no-preference) {
     @view-transition { navigation: auto; }
 }
 
-/* 14. Responsive --------------------------------------------------------- */
+ 
 @media (max-width: 1099px) {
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .cards-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1347,7 +1340,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 @media (max-width: 899px) {
     .header-inner { flex-wrap: wrap; gap: .5rem 1rem; }
 
-    /* Menu a tendina: si apre dall'alto, le voci entrano in sequenza. Chiuso non è focalizzabile. */
+     
     .js .nav-toggle { display: inline-flex; }
     .js .nav {
         position: absolute;
@@ -1427,7 +1420,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
     .subtiles a { width: 100%; }
 }
 
-/* 15. Accessibilità e stampa --------------------------------------------- */
+ 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .site-footer :focus-visible,
 .statement :focus-visible,
@@ -1465,7 +1458,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
     .site-footer a, .footer-grid h2, .site-footer .brand { color: #000000; }
     h1, h2, h3, .steps li, .facts article { break-after: avoid; break-inside: avoid; }
 }
-/* Componenti condivisi della versione aggiornata. */
+ 
 
 .cards-6 { grid-template-columns: repeat(3,minmax(0,1fr)); }
 .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1483,7 +1476,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-off
 html:not(.js) .widget { display:none; }
 @media print { .toc { max-height:none; } }
 
-/* Indice: aperto su desktop, a richiesta su mobile e tablet. */
+ 
 .toc-disclosure > summary {
     list-style:none; display:flex; align-items:center; justify-content:space-between;
     gap:1rem; color:var(--muted); font-size:.93rem; font-weight:600;
@@ -1500,7 +1493,7 @@ html:not(.js) .widget { display:none; }
  .toc-disclosure a{padding:.55rem 0}
 }
 
-/* Home: capitoli consecutivi, dal bisogno al percorso di prodotto. */
+ 
 .journey { padding-top:clamp(3.5rem,7vw,6rem); }
 .journey-intro { padding-bottom:3.5rem; }
 .journey-intro .kicker { font-size:.85rem; font-weight:700; color:var(--muted); margin-bottom:1rem; }
@@ -1534,7 +1527,28 @@ html:not(.js) .widget { display:none; }
 @media(prefers-reduced-motion:reduce){.journey-row:hover .journey-art{transform:none}}
 @media print{.journey-art,.journey-cta{display:none}.journey-row{display:block;padding-block:1rem}.journey-copy{border:0;padding:0}.journey-stage{background:none!important}}
 
-/* Ultime regolazioni della nuova pagina Funzionamento. */
+ 
 .functioning-layout .facts-wide { margin-top: 3rem; }
 .functioning-layout .version-link { margin-top: 3rem; }
 .functioning-layout .prose > .tabpanel::before { content: none; }
+
+.footer-social-links{display:flex;gap:.75rem;flex-wrap:wrap}
+.footer-social-link{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid currentColor;border-radius:8px;color:inherit}
+.footer-social-link svg{display:block;flex:none}
+.footer-social-link[href]:hover{color:var(--signal)}
+.footer-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.65fr)}
+.breadcrumbs{font-size:.85rem;margin-bottom:1.25rem;color:var(--muted)}
+.breadcrumbs a{text-underline-offset:.2em}
+@media(max-width:899px){.footer-grid{grid-template-columns:minmax(0,1fr)}}
+
+@media(max-width:899px){
+ .intro-grid{display:flex;flex-direction:column;align-items:stretch;gap:1.5rem}
+ .intro-grid > .intro-copy{display:block;order:0}
+ .intro-grid .hero-title{order:0;margin:0}
+ .intro-grid > .intro-leads-col{order:1}
+ .intro-grid > .intro-actions{order:2;margin-top:.5rem}
+}
+.night-btn{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.night-btn > *{pointer-events:none}
+.day-stage > svg{display:block;width:100%;height:auto;aspect-ratio:600/320;min-height:170px}
+.widget.reveal,.widget .reveal{opacity:1!important}
