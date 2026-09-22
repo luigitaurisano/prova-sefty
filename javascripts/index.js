@@ -327,8 +327,6 @@ function initNight() {
             log.forEach(li => li.classList.add('done'));
         }, 3000);
     };
-    const startButton = widget.querySelector('[data-start]');
-    startButton.addEventListener('click', () => { start(); if (!complete) label.textContent = 'Simulazione in corso…'; });
     button.addEventListener('pointerdown', e => {
         if (e.button !== 0) return;
         button.setPointerCapture(e.pointerId); start();
@@ -356,6 +354,10 @@ function initDay() {
     make('circle',{cx:300,cy:155,r:9,class:'day-tutor'});
     const points=[[260,125],[350,190],[210,165],[405,100],[140,130]];
     const dots=points.map(([x,y])=>make('circle',{cx:x,cy:y,r:8,class:'day-mem'}));
+    const syncFill=()=>{
+        const pct=(Number(range.value)-Number(range.min))/(Number(range.max)-Number(range.min))*100;
+        range.style.setProperty('--fill',pct+'%');
+    };
     const update=()=>{
         const radius=Number(range.value);zone.setAttribute('r',String(radius));let outside=0;
         dots.forEach((dot,i)=>{const out=Math.hypot(points[i][0]-300,points[i][1]-155)>radius;dot.classList.toggle('is-out',out);if(out)outside++;});
@@ -364,6 +366,7 @@ function initDay() {
         widget.querySelector('[data-alert]').classList.toggle('is-visible',outside>0);
         document.getElementById('dayStatus').textContent=message;
         range.setAttribute('aria-valuetext',`Raggio illustrativo ${radius}. ${message}`);
+        syncFill();
     };
     range.addEventListener('input',update); update();
 }
