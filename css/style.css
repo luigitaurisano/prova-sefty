@@ -1552,3 +1552,8 @@ html:not(.js) .widget { display:none; }
 .night-btn > *{pointer-events:none}
 .day-stage > svg{display:block;width:100%;height:auto;aspect-ratio:600/320;min-height:170px}
 .widget.reveal,.widget .reveal{opacity:1!important}
+
+@media(max-width:899px){
+ .day-alert{position:static;display:none;margin:0 1rem 1rem;transform:none}
+ .day-alert.is-visible{display:flex}
+}
