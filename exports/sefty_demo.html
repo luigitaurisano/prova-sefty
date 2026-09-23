@@ -1,0 +1,3478 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEFTY — Slide Deck Presentazione & Demo Interattiva</title>
+  <meta name="description"
+    content="Slide deck interattivo con note relatore e demo live per la presentazione ufficiale di SEFTY.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Slide Deck CSS -->
+  <style>
+    /* ==============================================================
+   SEFTY INTERACTIVE SLIDE DECK & PRESENTATION DESIGN SYSTEM
+   Luxury Minimal, Slate & Champagne Gold Palette
+   Optimized for Live Oral Pitch, Zero-Clutter Slides & Speaker Notes
+   ============================================================== */
+
+    :root {
+      /* Color Palette */
+      --bg-primary: #0b0f17;
+      --bg-surface: #131b26;
+      --bg-surface-elevated: #1a2434;
+      --bg-card: rgba(26, 36, 52, 0.75);
+      --bg-card-hover: rgba(36, 49, 70, 0.85);
+      --bg-glass: rgba(19, 27, 38, 0.85);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent-gold: #c5a880;
+      --accent-gold-light: #dfcaa7;
+      --accent-gold-dark: #9d8058;
+      --accent-gold-glow: rgba(197, 168, 128, 0.25);
+
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.2);
+      --accent-rose: #f43f5e;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #06b6d4;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(197, 168, 128, 0.35);
+      --border-active: rgba(197, 168, 128, 0.8);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+      --shadow-gold: 0 0 35px var(--accent-gold-glow);
+
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-heading: 'Outfit', 'Inter', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      overflow: hidden;
+      /* Slide Deck is fullscreen 100vh */
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background Atmosphere Glows */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -150px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(197, 168, 128, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -200px;
+      left: -150px;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ==============================================================
+   TOP HEADER & PROGRESS BAR
+   ============================================================== */
+    .deck-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: #0b0f17;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent-gold);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Slide Indicator & Quick Index */
+    .deck-timeline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .timeline-step-pill {
+      width: 22px;
+      height: 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .timeline-step-pill:hover {
+      background: var(--accent-gold-light);
+      transform: scaleY(1.5);
+    }
+
+    .timeline-step-pill.active {
+      background: var(--accent-gold);
+      width: 36px;
+      box-shadow: 0 0 10px var(--accent-gold);
+    }
+
+    .timeline-step-pill.completed {
+      background: rgba(197, 168, 128, 0.6);
+    }
+
+    .slide-counter-badge {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--accent-gold);
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    /* Header Controls */
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-pill.btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: #0b0f17;
+      border: none;
+      box-shadow: 0 4px 15px rgba(197, 168, 128, 0.35);
+    }
+
+    .btn-pill.btn-gold:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 6px 20px rgba(197, 168, 128, 0.5);
+    }
+
+    .btn-pill.active-toggle {
+      background: rgba(197, 168, 128, 0.2);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-light);
+    }
+
+    /* ==============================================================
+   MAIN SLIDE CONTAINER (100VH DECK)
+   ============================================================== */
+    .slides-wrapper {
+      position: fixed;
+      top: 68px;
+      bottom: 68px;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .slide-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 24px 36px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px) scale(0.98);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .slide-item.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Full Width Slide Layout */
+    .slide-item.slide-fullwidth {
+      grid-template-columns: 1fr;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Left Column: Speaker Notes & Oral Guide */
+    .slide-speaker-column {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      overflow-y: auto;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .slide-speaker-column::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .slide-speaker-column::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    .slide-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .slide-number-tag {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    .badge-operativo {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .badge-demo {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .badge-in-sviluppo {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .badge-da-validare {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.35);
+    }
+
+    .slide-heading {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .slide-quote-box {
+      background: rgba(197, 168, 128, 0.08);
+      border-left: 3px solid var(--accent-gold);
+      padding: 12px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent-gold-light);
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    /* Speaker Notes Box (Cosa dire a voce) */
+    .speaker-guide-box {
+      margin-top: auto;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(197, 168, 128, 0.25);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .speaker-guide-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .speaker-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    .speaker-num {
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(197, 168, 128, 0.25);
+      color: var(--accent-gold-light);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* Right Column: Visual Stage & Interactive Tools */
+    .slide-visual-stage {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .slide-visual-stage::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .slide-visual-stage::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    /* ==============================================================
+   VISUAL STAGE COMPONENTS & WIDGETS
+   ============================================================== */
+
+    /* Hero Overview (Slide 01) */
+    .hero-overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .hero-feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .hero-feature-card:hover {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.05);
+    }
+
+    .feature-glyph {
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    /* 3-Card Grid (Slide 02, 15) */
+    .stage-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      height: 100%;
+    }
+
+    .stage-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .stage-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-gold);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stage-card-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .stage-card-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .stage-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .stage-card-list {
+      list-style: none;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .stage-card-list li {
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .stage-card-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-gold);
+    }
+
+    /* 4-Pillar Ecosystem Grid (Slide 03) */
+    .stage-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      height: 100%;
+    }
+
+    .pillar-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .pillar-box:hover {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.06);
+    }
+
+    .pillar-badge-num {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.15);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Hardware Solutions (Slide 04) */
+    .hardware-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      height: 100%;
+    }
+
+    .hw-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hw-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .hw-specs-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 14px 0;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .hw-spec-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hw-spec-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .hw-spec-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Interactive 7-Phase Emergency Simulator (Slide 05) */
+    .sim-phase-stepper {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .sim-step-tab {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sim-step-tab.active {
+      background: var(--accent-gold);
+      color: #0b0f17;
+      border-color: var(--accent-gold);
+      font-weight: 700;
+    }
+
+    .sim-step-tab.completed {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--accent-emerald);
+      color: #34d399;
+    }
+
+    .sim-monitor-display {
+      flex: 1;
+      background: #080c14;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .sim-countdown-bar-container {
+      margin: 14px 0;
+      background: rgba(255, 255, 255, 0.1);
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .sim-countdown-bar-fill {
+      background: linear-gradient(90deg, #ef4444, #f59e0b);
+      height: 100%;
+      width: 100%;
+      transition: width 0.1s linear;
+    }
+
+    .sim-actions-toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Live Map Canvas (Slide 06) */
+    .map-stage-wrapper {
+      flex: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      min-height: 380px;
+    }
+
+    #leaflet-demo-map {
+      width: 100%;
+      height: 100%;
+      background: #111827;
+    }
+
+    /* Report Workflow (Slide 07) */
+    .report-workflow-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .cat-btn-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+    }
+
+    .cat-btn-card:hover {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.08);
+      transform: translateX(4px);
+    }
+
+    /* Return Timer Stage (Slide 08) */
+    .timer-stage-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .timer-digits-box {
+      background: #080c14;
+      border: 2px solid var(--accent-gold);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(197, 168, 128, 0.2);
+    }
+
+    .timer-large-digits {
+      font-family: var(--font-heading);
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--accent-gold-light);
+      letter-spacing: 2px;
+    }
+
+    .timer-preset-pills {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    /* Geofence Radar (Slide 09) */
+    .geofence-stage-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .radar-canvas-box {
+      width: 100%;
+      height: 280px;
+      background: #080c14;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-sweep-beam {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(16, 185, 129, 0.3) 0deg, transparent 60deg);
+      animation: radarSpin 4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes radarSpin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .radar-zone-ring {
+      position: absolute;
+      border: 2px dashed rgba(16, 185, 129, 0.6);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .radar-pin {
+      position: absolute;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pin-center {
+      background: var(--accent-gold);
+      color: #0b0f17;
+      z-index: 5;
+    }
+
+    .pin-member {
+      background: #3b82f6;
+      color: #ffffff;
+      z-index: 6;
+    }
+
+    /* Items Manager (Slide 10) */
+    .items-stage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .item-badge-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Sefty Index (Slide 11) */
+    .index-stage-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 20px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .index-gauge-box {
+      background: #080c14;
+      border: 2px solid var(--accent-emerald);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .index-gauge-val {
+      font-family: var(--font-heading);
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--accent-emerald);
+      line-height: 1;
+    }
+
+    .district-item-row {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .district-item-row:hover {
+      background: rgba(197, 168, 128, 0.08);
+      border-color: var(--accent-gold);
+    }
+
+    /* Roadmap Flow (Slide 14) */
+    .roadmap-deck-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .roadmap-phase-row {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 90px 180px 1fr 140px;
+      gap: 14px;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .roadmap-phase-row:hover {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.06);
+    }
+
+    .roadmap-phase-tag {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--accent-gold);
+    }
+
+    .roadmap-phase-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .roadmap-phase-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    /* ==============================================================
+   BOTTOM CONTROL BAR & SHORTCUTS
+   ============================================================== */
+    .deck-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+    }
+
+    .footer-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-tips {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .kbd-badge {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--accent-gold-light);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* ==============================================================
+   FULLSCREEN MODAL OVERLAYS (3D, Modals, Index Drawer)
+   ============================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 8, 14, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-content.modal-3d {
+      max-width: 1100px;
+      height: 80vh;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-iframe-body {
+      flex: 1;
+      padding: 0;
+      position: relative;
+    }
+
+    .modal-iframe-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Form Inputs */
+    .form-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-gold-glow);
+    }
+
+    /* Drawer Index Grid */
+    .deck-index-modal {
+      max-width: 900px;
+      max-height: 85vh;
+    }
+
+    .deck-index-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .index-tile {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .index-tile:hover {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .index-tile.active {
+      border-color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.2);
+    }
+
+    .tile-num {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .tile-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- TOP HEADER & PROGRESS BAR                                  -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <header class="deck-header">
+    <div class="brand-section">
+      <div class="brand-logo-badge">S</div>
+      <div class="brand-info">
+        <div class="brand-name">SEFTY</div>
+        <div class="brand-subtitle">Personal Safety Ecosystem</div>
+      </div>
+    </div>
+
+    <!-- 16-Step Timeline Indicator -->
+    <div class="deck-timeline">
+      <div id="deck-timeline-pills" style="display: flex; align-items: center; gap: 5px;">
+        <!-- Injected dynamically by demo.js -->
+      </div>
+      <div class="slide-counter-badge" id="deck-slide-counter">01 / 16</div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="deck-controls">
+      <button class="btn-pill" id="btn-open-index" title="Apri indice delle 16 slide (Tasto I)">
+        <span>📑 Indice Slide</span>
+      </button>
+      <button class="btn-pill active-toggle" id="btn-toggle-notes"
+        title="Mostra/Nascondi note per il relatore (Tasto N)">
+        <span>🗣️ Note Relatore</span>
+      </button>
+      <button class="btn-pill btn-gold" id="btn-toggle-fullscreen" title="Schermo intero (Tasto F)">
+        <span>⛶ Presenta</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- 16 INTERACTIVE SLIDES (100vh Deck)                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <main class="slides-wrapper" id="slides-wrapper">
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 01: PERCHÉ NASCE SEFTY                             -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item active" data-slide="1">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 01 • VISIONE & ORIGINE</span>
+          <span class="status-badge badge-operativo">CONCETTO VALIDATO</span>
+        </div>
+        <h2 class="slide-heading">Perché nasce SEFTY</h2>
+        <div class="slide-quote-box">
+          "La sicurezza personale è un diritto fondamentale, non un privilegio. Ma la tecnologia migliore è quella che
+          non sembra un allarme."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Il paradosso quotidiano:</strong> Chi si sposta la sera (donne, studenti, lavoratori) avverte
+              insicurezza, ma nessuno vuole indossare apparecchi medicali antiestetici o visibili.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>L'idea rivoluzionaria:</strong> Unire la massima ingegneria IoT miniaturizzata a un design di
+              alta gioielleria che chiunque indossa con piacere ogni giorno.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>L'obiettivo strategico:</strong> Creare il primo ecosistema europeo di protezione personale
+              preventiva, reattiva e comunitaria.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="hero-overview-grid">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="hero-feature-card">
+              <span class="feature-glyph">✨</span>
+              <div>
+                <strong>Nessuno Stigma Medicale</strong>
+                <p style="font-size: 12.5px; color: var(--text-secondary);">Sembra un gioiello di design contemporaneo,
+                  non un dispositivo d'allarme.</p>
+              </div>
+            </div>
+            <div class="hero-feature-card">
+              <span class="feature-glyph">⚡</span>
+              <div>
+                <strong>Attivazione Invisibile in 0.3s</strong>
+                <p style="font-size: 12.5px; color: var(--text-secondary);">Trigger immediato a sfioramento o pressione
+                  senza toccare il telefono.</p>
+              </div>
+            </div>
+            <div class="hero-feature-card">
+              <span class="feature-glyph">🛡️</span>
+              <div>
+                <strong>Protezione Continua 360°</strong>
+                <p style="font-size: 12.5px; color: var(--text-secondary);">Dall'emergenza notturna al geofencing
+                  diurno, fino ai Sefty Tag per gli oggetti.</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-highlight); border-radius: var(--radius-lg); padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div
+              style="font-family: var(--font-heading); font-size: 38px; font-weight: 800; letter-spacing: 4px; color: var(--text-primary); margin-bottom: 4px;">
+              SEFTY</div>
+            <div
+              style="font-size: 13px; color: var(--accent-gold); font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">
+              PERSONAL SAFETY ECOSYSTEM</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
+              <span class="status-badge" style="background: rgba(255,255,255,0.06);">BLE 5.2</span>
+              <span class="status-badge" style="background: rgba(255,255,255,0.06);">Haptic Alert</span>
+              <span class="status-badge" style="background: rgba(255,255,255,0.06);">GPS Real-time</span>
+              <span class="status-badge" style="background: rgba(255,255,255,0.06);">Cloud Hub</span>
+            </div>
+            <button class="btn-pill btn-gold" onclick="nextSlide()" style="padding: 10px 24px;">
+              Avanti: Il Problema ▶
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 02: IL PROBLEMA                                    -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="2">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 02 • ANALISI DELLO SCENARIO</span>
+          <span class="status-badge badge-operativo">DATI REALI</span>
+        </div>
+        <h2 class="slide-heading">Il Problema</h2>
+        <div class="slide-quote-box">
+          "Nei momenti di pericolo reale, estrarre e sbloccare uno smartphone è impossibile o estremamente rischioso."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Il paradosso dello smartphone:</strong> Quando sei aggredito o ti senti pedinato, il telefono è
+              in tasca o in borsa. Servono 10-15 secondi per estrarlo, e guardare lo schermo fa scattare la violenza.
+            </div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>I limiti dei prodotti attuali:</strong> Sirene rumorose e spray al peperoncino sono pericolosi
+              in spazi chiusi (ascensori, auto) o possono essere usati contro la vittima.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Assenza di prevenzione:</strong> Non esiste oggi un sistema che protegga prima che avvenga
+              l'aggressione o che avvisi automaticamente se non torni a casa.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="stage-grid-3">
+          <div class="stage-card">
+            <div class="stage-card-icon">📱</div>
+            <div class="status-badge badge-da-validare" style="margin-bottom: 8px;">SMARTPHONE</div>
+            <div class="stage-card-title">Il Paradosso del Telefono</div>
+            <div class="stage-card-desc">Troppo lento e visibile durante una minaccia improvvisa.</div>
+            <ul class="stage-card-list">
+              <li>10-20 secondi per sblocco PIN</li>
+              <li>Attira l'attenzione dell'aggressore</li>
+              <li>Fallimento biometrico sotto stress</li>
+            </ul>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-card-icon">📢</div>
+            <div class="status-badge badge-in-sviluppo" style="margin-bottom: 8px;">ALLARMI TRADIZIONALI</div>
+            <div class="stage-card-title">Sirene & Spray Tascabili</div>
+            <div class="stage-card-desc">Dispositivi isolati, aggressivi o stigmatizzanti.</div>
+            <ul class="stage-card-list">
+              <li>Nessun collegamento GPS ai familiari</li>
+              <li>Pericolosi in auto o spazi chiusi</li>
+              <li>Fattore estetico sgradevole</li>
+            </ul>
+          </div>
+
+          <div class="stage-card" style="border-color: var(--accent-gold); background: rgba(197, 168, 128, 0.05);">
+            <div class="stage-card-icon">💎</div>
+            <div class="status-badge badge-operativo" style="margin-bottom: 8px;">LA RISPOSTA SEFTY</div>
+            <div class="stage-card-title">Protezione Immediata & Discreta</div>
+            <div class="stage-card-desc">Un tocco invisibile sul polso attiva l'intera rete di soccorso.</div>
+            <ul class="stage-card-list">
+              <li>Zero display, zero tempi morti</li>
+              <li>Feedback aptico anti-falso allarme</li>
+              <li>Streaming GPS e audio in tempo reale</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 03: LA SOLUZIONE                                   -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="3">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 03 • L'ARCHITETTURA</span>
+          <span class="status-badge badge-operativo">4 PILASTRI INTEGRATI</span>
+        </div>
+        <h2 class="slide-heading">La Soluzione</h2>
+        <div class="slide-quote-box">
+          "Un wearable di alta gioielleria connesso a un'app intelligente e a un cloud proprietario per una protezione
+          totale a 360 gradi."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>I 4 Pilastri di SEFTY:</strong> Mostra che non stiamo vendendo un singolo gadget, ma
+              un'infrastruttura completa a 4 livelli coordinati.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Hardware + Software proprietario:</strong> Il wearable comunica via BLE a basso consumo con la
+              nostra app, che fa da gateway verso il cloud FastAPI e MQTT.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Coinvolgimento dei Guardian:</strong> La rete di contatti fidati riceve istantaneamente
+              notifiche, audio e tracciamento senza che l'utente debba toccare lo smartphone.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="stage-grid-4">
+          <div class="pillar-box">
+            <div class="pillar-badge-num">01</div>
+            <div>
+              <div style="font-weight: 700; font-size: 15px; color: var(--text-primary);">Wearable di Lusso (IoT)</div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 4px;">Bracciale o capsula Pebble
+                con trigger invisibile, vibrazione aptica e chip BLE Nordic.</p>
+              <span class="status-badge badge-operativo" style="margin-top: 8px;">HARDWARE DESIGN</span>
+            </div>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-badge-num">02</div>
+            <div>
+              <div style="font-weight: 700; font-size: 15px; color: var(--text-primary);">Sefty App Mobile</div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 4px;">Gateway iOS e Android:
+                gestione geolocalizzazione, mappa live, timer di rientro e Sefty Tag.</p>
+              <span class="status-badge badge-operativo" style="margin-top: 8px;">REACT NATIVE / EXPO</span>
+            </div>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-badge-num">03</div>
+            <div>
+              <div style="font-weight: 700; font-size: 15px; color: var(--text-primary);">Cloud Hub & MQTT Broker</div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 4px;">FastAPI, PostgreSQL PostGIS e
+                broker Mosquitto per streaming audio live e calcolo Sefty Index.</p>
+              <span class="status-badge badge-operativo" style="margin-top: 8px;">DOCKER BACKEND</span>
+            </div>
+          </div>
+
+          <div class="pillar-box">
+            <div class="pillar-badge-num">04</div>
+            <div>
+              <div style="font-weight: 700; font-size: 15px; color: var(--text-primary);">Rete Guardian & Safe Points
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); margin-top: 4px;">Contatti fidati avvisati in
+                tempo reale e mappa dei presidi sicuri (farmacie 24h, negozi partner).</p>
+              <span class="status-badge badge-operativo" style="margin-top: 8px;">COMMUNITY DEFENSE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 04: IL DISPOSITIVO (SOLUZIONE A & B 3D)            -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="4">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 04 • HARDWARE DESIGN</span>
+          <span class="status-badge badge-operativo">MODELLI 3D INTERATTIVI</span>
+        </div>
+        <h2 class="slide-heading">Il Dispositivo Hardware</h2>
+        <div class="slide-quote-box">
+          "Due declinazioni ingegneristiche complementari: la Capsula Pebble Modulare e il Bracciale Scultoreo Aura
+          Linea."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Soluzione A (Pebble Modulare):</strong> Modulo miniaturizzato (28x18x6.8mm) che può essere
+              montato in bracciali, cinturini in pelle o ciondoli. Massima scalabilità produttiva.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Soluzione B (Aura Linea):</strong> Bracciale rigido di alta gioielleria contemporanea con
+              scanalatura aerea aerodinamica e trigger tattile a scomparsa.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Interattività 3D:</strong> Clicca sui pulsanti a destra per mostrare i modelli 3D navigabili in
+              tempo reale.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="hardware-split">
+          <div class="hw-card">
+            <div class="hw-card-header">
+              <div style="font-weight: 800; font-size: 16px; color: var(--accent-gold);">SOLUZIONE A</div>
+              <span class="status-badge badge-demo">3D PEBBLE</span>
+            </div>
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">Capsula Pebble Modulare</div>
+            <p style="font-size: 12px; color: var(--text-secondary);">Incapsulabile in bracciali in cuoio, metallo o
+              ciondoli.</p>
+            <div class="hw-specs-table">
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Dimensioni</span>
+                <span class="hw-spec-val">28 × 18 × 6.8 mm</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">SoC BLE</span>
+                <span class="hw-spec-val">Nordic nRF52840</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Feedback</span>
+                <span class="hw-spec-val">Micro-Aptico ERM</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Batteria</span>
+                <span class="hw-spec-val">Coin Cell / LiPo</span>
+              </div>
+            </div>
+            <button class="btn-pill btn-gold" onclick="open3DViewer('A')" style="margin-top: auto;">
+              🔍 Apri Vista 3D Soluzione A
+            </button>
+          </div>
+
+          <div class="hw-card">
+            <div class="hw-card-header">
+              <div style="font-weight: 800; font-size: 16px; color: var(--accent-gold);">SOLUZIONE B</div>
+              <span class="status-badge badge-operativo">3D AURA LINEA</span>
+            </div>
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">Aura Linea — Bracciale Scultoreo</div>
+            <p style="font-size: 12px; color: var(--text-secondary);">Scanalatura aerea, griglia microfonica e smart
+              touch integrato.</p>
+            <div class="hw-specs-table">
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Design</span>
+                <span class="hw-spec-val">Monolitico Ergonomico</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Finitura</span>
+                <span class="hw-spec-val">Champagne Gold / Matt</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Impermeabilità</span>
+                <span class="hw-spec-val">IP67 Waterproof</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-lbl">Griglia Audio</span>
+                <span class="hw-spec-val">Micro-forata 0.4mm</span>
+              </div>
+            </div>
+            <button class="btn-pill btn-gold" onclick="open3DViewer('B')" style="margin-top: auto;">
+              💎 Apri Vista 3D Aura Linea (Sol. B)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 05: COME FUNZIONA L'EMERGENZA                      -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="5">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 05 • PROTOCOLLO DI SICUREZZA</span>
+          <span class="status-badge badge-operativo">SIMULATORE LIVE</span>
+        </div>
+        <h2 class="slide-heading">Come Funziona l'Emergenza</h2>
+        <div class="slide-quote-box">
+          "Un protocollo a 7 fasi sincronizzate: dalla pressione sul bracciale al filtro anti-falso allarme, fino allo
+          streaming audio e GPS ai soccorritori."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Fase 1 - Pressione 3s:</strong> L'utente attiva il trigger invisibile sul polso.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Fase 2 - Filtro Anti-Falsi Allarmi (5s):</strong> Il bracciale vibra in modo impercettibile; se
+              è stato un tocco accidentale, 2 click rapidi annullano tutto senza allertare nessuno.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Fasi 3-7:</strong> GPS Lock immediato, invio SMS/Push ai Guardian con link mappa, apertura
+              canale audio live MQTT e identificazione Safe Points.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <!-- 7 Step Tabs -->
+        <div class="sim-phase-stepper">
+          <div class="sim-step-tab" id="sim-tab-1">1. Trigger</div>
+          <div class="sim-step-tab" id="sim-tab-2">2. Filtro 5s</div>
+          <div class="sim-step-tab" id="sim-tab-3">3. GPS Lock</div>
+          <div class="sim-step-tab" id="sim-tab-4">4. Alert SMS</div>
+          <div class="sim-step-tab" id="sim-tab-5">5. Audio Live</div>
+          <div class="sim-step-tab" id="sim-tab-6">6. Safe Points</div>
+          <div class="sim-step-tab" id="sim-tab-7">7. Registro</div>
+        </div>
+
+        <!-- Simulator Monitor -->
+        <div class="sim-monitor-display" id="sim-monitor-content">
+          <!-- Rendered dynamically by demo.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 06: LA MAPPA SEFTY LIVE                            -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="6">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 06 • GEOLOCALIZZAZIONE</span>
+          <span class="status-badge badge-operativo">MAPPA REALE OPERATIVA</span>
+        </div>
+        <h2 class="slide-heading">La Mappa SEFTY Live</h2>
+        <div class="slide-quote-box">
+          "Cartografia ad alta precisione in tempo reale: individua la tua posizione, le segnalazioni della community e
+          i Safe Points di rifugio più vicini."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Geolocalizzazione costante:</strong> Visualizzazione della posizione esatta dell'utente con
+              aggiornamento rapido.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Safe Points territoriali:</strong> Punti verdi sulla mappa rappresentano farmacie 24h, presidi
+              di polizia e negozi convenzionati per rifugio immediato.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Segnalazioni attive:</strong> Indicatori colorati per lampioni spenti, pericoli e strade buie
+              inviati dagli altri utenti.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="display: flex; gap: 12px; font-size: 12px;">
+            <span><span style="color: var(--accent-gold);">●</span> Tu / GPS</span>
+            <span><span style="color: #10b981;">●</span> Safe Points (Presidi/Farmacie)</span>
+            <span><span style="color: #f59e0b;">●</span> Segnalazioni Utenti</span>
+          </div>
+          <button class="btn-pill" onclick="recenterMap()" style="padding: 4px 12px; font-size: 12px;">
+            📍 Ricentra Mappa
+          </button>
+        </div>
+        <div class="map-stage-wrapper">
+          <div id="leaflet-demo-map"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 07: LE SEGNALAZIONI                                -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="7">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 07 • INTELLIGENZA PARTECIPATIVA</span>
+          <span class="status-badge badge-operativo">COLLEGATO AL BACKEND</span>
+        </div>
+        <h2 class="slide-heading">Le Segnalazioni</h2>
+        <div class="slide-quote-box">
+          "Ogni utente diventa un sensore attivo per la comunità: bastano 2 tocchi per georeferenziare un pericolo o un
+          disservizio urbano."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Semplicità e rapidità:</strong> 3 sole categorie chiave (Scarsa illuminazione, Presenza
+              sospetta, Pericolo imminente) per evitare dispersioni.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>GPS Automatico:</strong> L'app acquisisce le coordinate al tocco e apre il dialog di conferma.
+            </div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Dimostrazione Live:</strong> Clicca su una categoria a destra per inviare una segnalazione di
+              test che comparirà istantaneamente sulla mappa.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="report-workflow-layout">
+          <div>
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--text-primary);">Seleziona
+              una categoria per testare:</div>
+
+            <div class="cat-btn-card" onclick="selectReportCategory('illuminazione', 'Scarsa Illuminazione')">
+              <div style="font-size: 26px;">💡</div>
+              <div>
+                <div style="font-weight: 700; font-size: 14px; color: #fbbf24;">Scarsa Illuminazione</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Lampioni spenti, vicoli bui, visibilità
+                  compromessa.</div>
+              </div>
+            </div>
+
+            <div class="cat-btn-card" onclick="selectReportCategory('sospetto', 'Presenza Sospetta')">
+              <div style="font-size: 26px;">👀</div>
+              <div>
+                <div style="font-weight: 700; font-size: 14px; color: #a78bfa;">Presenza Sospetta</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Pedinamenti, individui minacciosi o
+                  comportamenti ostili.</div>
+              </div>
+            </div>
+
+            <div class="cat-btn-card" onclick="selectReportCategory('pericolo', 'Pericolo Imminente')">
+              <div style="font-size: 26px;">⚠️</div>
+              <div>
+                <div style="font-weight: 700; font-size: 14px; color: #f87171;">Pericolo Imminente</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Aggressione in corso, rissa, ostacolo
+                  critico.</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-weight: 700; font-size: 13px; color: var(--text-primary);">Database Segnalazioni
+                Attive</span>
+              <span class="status-badge badge-operativo">POSTGRESQL</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12.5px;">
+              <div style="background: rgba(255,255,255,0.04); padding: 8px 10px; border-radius: 6px;">💡 Lampioni spenti
+                in via Roma • 15 min fa</div>
+              <div style="background: rgba(255,255,255,0.04); padding: 8px 10px; border-radius: 6px;">👀 Presenza
+                sospetta vicino parcheggio • 35 min fa</div>
+              <div style="background: rgba(255,255,255,0.04); padding: 8px 10px; border-radius: 6px;">⚠️ Rissa verbale
+                piazza San Carlo • 1 ora fa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 08: IL TIMER DI RIENTRO                            -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="8">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 08 • PROTEZIONE PREVENTIVA</span>
+          <span class="status-badge badge-operativo">TESTABILE LIVE</span>
+        </div>
+        <h2 class="slide-heading">Il Timer di Rientro</h2>
+        <div class="slide-quote-box">
+          "Protezione che interviene prima dell'emergenza: se non confermi il rientro entro il tempo stimato, l'app
+          avvisa i tuoi cari in automatico."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Scenario d'uso tipico:</strong> "Sto camminando dal ristorante alla macchina (15 min)".
+              L'utente imposta il timer e cammina tranquillo.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Check automatico:</strong> A 2 minuti dalla fine, l'app invia un promemoria discreto con
+              vibrazione al polso.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Salvataggio in caso di impedimento:</strong> Se la persona subisce un'aggressione o un malore e
+              non può premere nulla, alla scadenza parte l'allerta automatica con l'ultima coordinata GPS.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="timer-stage-layout">
+          <div class="timer-digits-box">
+            <span class="status-badge badge-da-validare" id="timer-status-badge"
+              style="margin-bottom: 12px;">INATTIVO</span>
+            <div class="timer-large-digits" id="timer-display-digits">15:00</div>
+            <div class="timer-preset-pills">
+              <button class="btn-pill" onclick="setTimerPreset(5)">5 min</button>
+              <button class="btn-pill" onclick="setTimerPreset(15)">15 min</button>
+              <button class="btn-pill" onclick="setTimerPreset(30)">30 min</button>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+              <button class="btn-pill btn-gold" id="btn-toggle-timer" onclick="toggleReturnTimer()">
+                ▶️ Avvia Timer di Rientro
+              </button>
+              <button class="btn-pill" onclick="simulateMissedReturn()"
+                style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5;">
+                🚨 Simula Mancato Rientro
+              </button>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px;">
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--accent-gold);">Sequenza di
+              Salvaguardia:</div>
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+              <div><strong>1. Impostazione:</strong> Selezioni il tempo stimato per il tragitto a piedi o in bici.</div>
+              <div><strong>2. Monitoraggio:</strong> L'app traccia il percorso in background senza consumare batteria
+                eccessiva.</div>
+              <div><strong>3. Auto-Alert:</strong> Se non rispondi al check di sicurezza, scatta l'allerta prioritaria
+                ai contatti fidati con coordinate e mappa.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 09: SEFTY GIORNO (GEOFENCING RADAR)                -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="9">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 09 • SUPERVISIONE DIURNA</span>
+          <span class="status-badge badge-demo">SIMULATORE PROSSIMITÀ</span>
+        </div>
+        <h2 class="slide-heading">Sefty Giorno</h2>
+        <div class="slide-quote-box">
+          "La sicurezza non è solo per la notte: Sefty Giorno protegge bambini in gita, anziani o animali tramite
+          perimetro radar di prossimità."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Ampliamento del target:</strong> Sefty non è solo un dispositivo anti-aggressione per donne, ma
+              uno strumento di tutela per famiglie, genitori e anziani.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Geofencing di prossimità (10-80m):</strong> Configuri il raggio consentito al parco, al centro
+              commerciale o in vacanza.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Allarme istantaneo di allontanamento:</strong> Se il bambino o il nonno esce dal perimetro, il
+              bracciale del genitore vibra all'istante.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="geofence-stage-layout">
+          <div>
+            <div class="radar-canvas-box">
+              <div class="radar-sweep-beam"></div>
+              <div class="radar-zone-ring" id="radar-geofence-circle"></div>
+              <div class="radar-pin pin-center">👨‍👩‍👧 Tu</div>
+              <div class="radar-pin pin-member" id="radar-member-pin" style="transform: translate(22px, 20px);">🧒 Marco
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+              Distanza rilevata: <strong id="geofence-distance-text" style="color: var(--accent-gold-light);">18 m
+                (Entro il raggio)</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div
+              style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+                <span>Raggio di Sicurezza:</span>
+                <strong id="geofence-radius-val" style="color: var(--accent-gold);">30 m</strong>
+              </div>
+              <input type="range" min="10" max="80" value="30" style="width: 100%; accent-color: var(--accent-gold);"
+                oninput="updateGeofenceRadius(this.value)">
+              <div
+                style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+                <span>10m (Folla)</span>
+                <span>30m (Parco)</span>
+                <span>80m (Aperto)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-pill" onclick="simulateMemberPosition(15)" style="flex: 1;">
+                🟢 Dentro Raggio (15m)
+              </button>
+              <button class="btn-pill" onclick="simulateMemberPosition(60)"
+                style="flex: 1; background: rgba(239,68,68,0.2); border-color: #ef4444; color: #fca5a5;">
+                🚨 Simula Fuga (60m)
+              </button>
+            </div>
+
+            <div id="geofence-alert-card"
+              style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; display: flex; gap: 10px; align-items: center;">
+              <div style="font-size: 24px;">✅</div>
+              <div>
+                <strong style="color: #34d399;">Perimetro Sicuro</strong>
+                <p style="font-size: 12px; color: var(--text-secondary);">Dispositivo entro i limiti configurati.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 10: I MIEI OGGETTI / SEFTY TAG                     -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="10">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 10 • ASSET TRACKING</span>
+          <span class="status-badge badge-operativo">COLLEGATO AD API /ITEMS</span>
+        </div>
+        <h2 class="slide-heading">I Miei Oggetti / Sefty Tag</h2>
+        <div class="slide-quote-box">
+          "Un unico hub per non perdere e non farsi sottrarre borse, chiavi, zaini e laptop di valore grazie ai tag
+          BLE."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Antifurto di prossimità:</strong> I Sefty Tag BLE si applicano agli oggetti quotidiani. Se ti
+              allontani dalla borsa al bar, ricevi subito un avviso.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Monitoraggio parametri reali:</strong> Segnale RSSI (potenza in dBm), stato batteria e codice
+              identificativo univoco.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Integrazione backend reale:</strong> Clicca su "+ Associa Nuovo Oggetto" per mostrare la
+              sincronizzazione API con il nostro server.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <span style="font-weight: 700; font-size: 14px; color: var(--text-primary);">Dispositivi & Tag
+              Connessi</span>
+            <span style="font-size: 12px; color: var(--text-muted); margin-left: 8px;">(BLE 5.2 Active)</span>
+          </div>
+          <button class="btn-pill btn-gold" onclick="openAddItemModal()">
+            ➕ Associa Nuovo Oggetto / Tag
+          </button>
+        </div>
+
+        <div class="items-stage-grid" id="items-grid-container">
+          <!-- Rendered dynamically by demo.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 11: SEFTY INDEX                                    -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="11">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 11 • ALGORITMO PREDITTIVO</span>
+          <span class="status-badge badge-in-sviluppo">MOTORE CALCOLO IN SVILUPPO</span>
+        </div>
+        <h2 class="slide-heading">Sefty Index</h2>
+        <div class="slide-quote-box">
+          "Un indice algoritmico dinamico da 0 a 100 che quantifica il livello di sicurezza percepita e reale di ogni
+          quartiere."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Come funziona l'algoritmo:</strong> Incrocia segnalazioni verificate nel tempo, copertura
+              dell'illuminazione pubblica e densità dei Safe Points.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Percorsi sicuri intelligenti:</strong> Consente all'utente di scegliere il tragitto a piedi non
+              solo più breve, ma con il più alto Sefty Index.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Valore Smart City:</strong> Dati geospaziali preziosi da condividere con municipalità e forze
+              dell'ordine per interventi mirati.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="index-stage-layout">
+          <div>
+            <div class="index-gauge-box">
+              <div class="index-gauge-val" id="index-score-display">88</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">PUNTEGGIO / 100</div>
+            </div>
+            <div id="index-level-name"
+              style="font-weight: 700; font-size: 13px; text-align: center; margin-top: 10px; color: var(--accent-emerald);">
+              Circoscrizione 1: Elevata Sicurezza
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--text-primary);">Seleziona
+              una circoscrizione di Torino:</div>
+            <div class="district-item-row" onclick="inspectDistrictScore(0)">
+              <span>Circoscrizione 1 (Centro / Crocetta)</span>
+              <strong style="color: #10b981;">88 / 100</strong>
+            </div>
+            <div class="district-item-row" onclick="inspectDistrictScore(1)">
+              <span>Circoscrizione 3 (San Paolo / Cenisia)</span>
+              <strong style="color: #10b981;">82 / 100</strong>
+            </div>
+            <div class="district-item-row" onclick="inspectDistrictScore(2)">
+              <span>Circoscrizione 8 (San Salvario / Po)</span>
+              <strong style="color: #f59e0b;">71 / 100</strong>
+            </div>
+            <div class="district-item-row" onclick="inspectDistrictScore(3)">
+              <span>Circoscrizione 7 (Aurora / Vanchiglia)</span>
+              <strong style="color: #f97316;">62 / 100</strong>
+            </div>
+            <div class="district-item-row" onclick="inspectDistrictScore(4)">
+              <span>Circoscrizione 6 (Barriera di Milano)</span>
+              <strong style="color: #ef4444;">54 / 100</strong>
+            </div>
+
+            <div id="index-params-detail"
+              style="margin-top: 12px; font-size: 12px; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px;">
+              <strong>Parametri:</strong> Segnalazioni verificate: 4 • Copertura illuminazione: 94% • Safe Points
+              attivi: 12
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 12: SEFTY COME ECOSISTEMA                          -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="12">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 12 • ARCHITETTURA INTEGRATA</span>
+          <span class="status-badge badge-operativo">PIATTAFORMA END-TO-END</span>
+        </div>
+        <h2 class="slide-heading">Sefty come Ecosistema</h2>
+        <div class="slide-quote-box">
+          "Nessuna dipendenza da servizi chiusi terzi: l'intera catena del valore (Hardware, App, Cloud, Community) è
+          ingegnerizzata su misura."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Flusso continuo dei dati:</strong> Dal sensore fisico al polso fino allo smartphone che fa da
+              gateway, al server cloud e ai soccorritori.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Architettura ultra-scalabile:</strong> Container Docker, database geospaziale PostGIS e
+              messaggistica MQTT ultra-leggera adatta a milioni di dispositivi.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Barriera all'entrata:</strong> L'ecosistema integrato rende il prodotto difficilmente
+              replicabile dai concorrenti che fanno solo app o solo gadget fisici.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage" style="justify-content: center;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">💎</div>
+            <div style="font-weight: 800; font-size: 13px; color: var(--accent-gold);">1. WEARABLE IOT</div>
+            <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px;">Nordic nRF52 BLE, sensori
+              capacitivi, crittografia HW.</p>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">📱</div>
+            <div style="font-weight: 800; font-size: 13px; color: var(--accent-gold);">2. SEFTY MOBILE APP</div>
+            <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px;">Gateway GPS, streaming audio,
+              background service.</p>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">☁️</div>
+            <div style="font-weight: 800; font-size: 13px; color: var(--accent-gold);">3. CLOUD BACKEND</div>
+            <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px;">FastAPI, PostgreSQL PostGIS,
+              Mosquitto MQTT.</p>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">🛡️</div>
+            <div style="font-weight: 800; font-size: 13px; color: var(--accent-gold);">4. GUARDIAN & RETE</div>
+            <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px;">SMS/Push, Safe Points
+              territoriali, soccorso.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 13: DOVE SIAMO OGGI                                -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="13">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 13 • STATO AVANZAMENTO</span>
+          <span class="status-badge badge-operativo">ASSET OPERATIVI</span>
+        </div>
+        <h2 class="slide-heading">Dove Siamo Oggi</h2>
+        <div class="slide-quote-box">
+          "Non presentiamo solo un'idea su carta: abbiamo sviluppato un MVP software completo e modelli CAD/3D già
+          pronti per la prototipazione."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Backend Dockerizzato 100% operativo:</strong> API REST FastAPI, database PostGIS con tabelle
+              geospaziali e broker MQTT attivi.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>App Mobile 90% pronta:</strong> React Native / Expo con geolocalizzazione live, gestione
+              allarmi e modulo oggetti.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Design 3D e schemi pronti:</strong> Soluzione A e Soluzione B modellate in 3D con specifiche di
+              ingombro e componenti elettronici selezionati.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="stage-grid-3">
+          <div class="stage-card">
+            <div class="status-badge badge-operativo" style="margin-bottom: 8px;">100% OPERATIVO</div>
+            <div class="stage-card-title">Backend & Cloud Hub</div>
+            <ul class="stage-card-list">
+              <li>FastAPI con documentazione OpenAPI</li>
+              <li>PostgreSQL + PostGIS geospaziale</li>
+              <li>Broker Mosquitto MQTT real-time</li>
+              <li>Architettura Docker containerizzata</li>
+            </ul>
+          </div>
+
+          <div class="stage-card">
+            <div class="status-badge badge-operativo" style="margin-bottom: 8px;">90% OPERATIVO</div>
+            <div class="stage-card-title">App Mobile (iOS / Android)</div>
+            <ul class="stage-card-list">
+              <li>React Native & Expo con build EAS</li>
+              <li>Mappe live e routing geolocalizzato</li>
+              <li>Modulo Segnalazioni e Sefty Tag</li>
+              <li>Gestione contatti fidati Guardian</li>
+            </ul>
+          </div>
+
+          <div class="stage-card">
+            <div class="status-badge badge-in-sviluppo" style="margin-bottom: 8px;">CAD 3D PRONTO</div>
+            <div class="stage-card-title">Ingegneria Hardware</div>
+            <ul class="stage-card-list">
+              <li>Modello 3D Soluzione A (Capsula)</li>
+              <li>Modello 3D Soluzione B (Aura Linea)</li>
+              <li>Selezione componenti SoC BLE nRF52</li>
+              <li>Specifiche micro-stampaggio definite</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 14: PIANO DI SVILUPPO (ROADMAP 5 FASI)             -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="14">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 14 • ROADMAP STRATEGICA</span>
+          <span class="status-badge badge-in-sviluppo">5 FASI DI SVILUPPO</span>
+        </div>
+        <h2 class="slide-heading">Il Percorso di SEFTY</h2>
+        <div class="slide-quote-box">
+          "Un piano rigoroso in 5 fasi che porta il progetto dall'attuale stato prototipale alla scalata sul mercato
+          consumer e B2B."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>OGGI (Fase 1):</strong> MVP software, modelli 3D e architettura completati.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>SVILUPPO (Fase 2):</strong> Prototipazione scheda PCB master e primi 10 campioni fisici.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>VALIDAZIONE ➔ INDUSTRIALIZZAZIONE ➔ MERCATO:</strong> Test con 200 utenti a Torino,
+              certificazioni CE/RED e produzione industriale scalata.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="roadmap-deck-timeline">
+          <div class="roadmap-phase-row">
+            <div class="roadmap-phase-tag">OGGI</div>
+            <div class="roadmap-phase-name">MVP Software & 3D</div>
+            <div class="roadmap-phase-desc">Backend FastAPI, Mobile App e rendering CAD 3D completati.</div>
+            <span class="status-badge badge-operativo">COMPLETATA</span>
+          </div>
+
+          <div class="roadmap-phase-row">
+            <div class="roadmap-phase-tag">SVILUPPO</div>
+            <div class="roadmap-phase-name">Prototipo HW Fisico</div>
+            <div class="roadmap-phase-desc">Sviluppo scheda master PCB, antenna BLE e prime 10 casse.</div>
+            <span class="status-badge badge-in-sviluppo">Q1 (IN PARTENZA)</span>
+          </div>
+
+          <div class="roadmap-phase-row">
+            <div class="roadmap-phase-tag">VALIDAZIONE</div>
+            <div class="roadmap-phase-name">Beta Test sul Campo</div>
+            <div class="roadmap-phase-desc">Trial con 200 utenti a Torino e ottimizzazione firmware.</div>
+            <span class="status-badge badge-da-validare">Q2</span>
+          </div>
+
+          <div class="roadmap-phase-row">
+            <div class="roadmap-phase-tag">PRODUZIONE</div>
+            <div class="roadmap-phase-name">Industrializzazione</div>
+            <div class="roadmap-phase-desc">Certificazioni CE/RED, stampi industriali e packaging.</div>
+            <span class="status-badge badge-da-validare">Q3</span>
+          </div>
+
+          <div class="roadmap-phase-row">
+            <div class="roadmap-phase-tag">MERCATO</div>
+            <div class="roadmap-phase-name">Lancio Commerciale</div>
+            <div class="roadmap-phase-desc">Vendita diretta online, canali gioielleria e accordi B2B.</div>
+            <span class="status-badge badge-da-validare">Q4</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 15: PERCHÉ I3P                                     -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="15">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 15 • PARTNERSHIP STRATEGICA</span>
+          <span class="status-badge badge-operativo">INCUBATORE POLITECNICO</span>
+        </div>
+        <h2 class="slide-heading">Perché I3P</h2>
+        <div class="slide-quote-box">
+          "L'Incubatore del Politecnico di Torino è l'ambiente ideale per accelerare l'ingegnerizzazione e scalare
+          l'impresa sul mercato europeo."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Laboratori del Politecnico:</strong> Supporto specialistico per micro-elettronica, test di
+              radiofrequenza BLE e scienza dei materiali.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Mentorship strategica:</strong> Brevettazione internazionale del design e del protocollo,
+              pricing Hardware-as-a-Service e accesso a bandi Smart&Start / Invitalia.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Torino Living Lab:</strong> Città perfetta per testare il Sefty Index e la rete dei Safe Points
+              in sinergia con il territorio.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div class="stage-grid-3">
+          <div class="stage-card">
+            <div class="stage-card-icon">🏛️</div>
+            <div class="stage-card-title">Eccellenza Tecnica</div>
+            <div class="stage-card-desc">Accesso ai laboratori di telecomunicazioni ed elettronica del Politecnico per
+              la miniaturizzazione della scheda.</div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-card-icon">💼</div>
+            <div class="stage-card-title">Mentorship & Finanza</div>
+            <div class="stage-card-desc">Affiancamento continuo su brevettazione, governance societaria e supporto per
+              round pre-seed ed agevolazioni regionali.</div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-card-icon">🤝</div>
+            <div class="stage-card-title">Torino Living Lab</div>
+            <div class="stage-card-desc">Validazione dell'indice territoriale e coinvolgimento attivo di commercianti e
+              municipalità nei Safe Points.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────── -->
+    <!-- SLIDE 16: PROSSIMI PASSI                                 -->
+    <!-- ──────────────────────────────────────────────────────── -->
+    <section class="slide-item" data-slide="16">
+      <!-- Left: Speaker Column -->
+      <div class="slide-speaker-column">
+        <div class="slide-meta-row">
+          <span class="slide-number-tag">SLIDE 16 • EXECUTION A 90 GIORNI</span>
+          <span class="status-badge badge-operativo">TABELLA DI MARCIA</span>
+        </div>
+        <h2 class="slide-heading">Prossimi Passi</h2>
+        <div class="slide-quote-box">
+          "Le basi tecnologiche sono solide, la visione è chiara. I prossimi 90 giorni definiranno la costituzione e
+          l'avvio operativo."
+        </div>
+
+        <div class="speaker-guide-box">
+          <div class="speaker-guide-header">
+            <span>🗣️ COSA DIRE A VOCE (NOTE RELATORE)</span>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">1</span>
+            <div><strong>Passo 1:</strong> Costituzione formale della Startup Innovativa (accesso a sgravi fiscali e
+              crediti R&S).</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">2</span>
+            <div><strong>Passo 2:</strong> Ingresso formale nel programma di incubazione I3P.</div>
+          </div>
+          <div class="speaker-point">
+            <span class="speaker-num">3</span>
+            <div><strong>Passo 3 & 4:</strong> Primi 10 prototipi fisici Aura Linea funzionanti e candidatura ai bandi
+              regionali per la produzione pilota.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual Stage -->
+      <div class="slide-visual-stage">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px;">
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-gold);">PASSO 1</div>
+            <div style="font-weight: 700; font-size: 14px; margin: 4px 0;">Costituzione Startup Innovativa</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Definizione statuto, soci e deposito domanda
+              agevolazioni fiscali.</div>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-gold);">PASSO 2</div>
+            <div style="font-weight: 700; font-size: 14px; margin: 4px 0;">Ingresso in Incubazione I3P</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Assegnazione tutor d'impresa e avvio sessioni
+              ingegneristiche congiunte.</div>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-gold);">PASSO 3</div>
+            <div style="font-weight: 700; font-size: 14px; margin: 4px 0;">Prototipo HW Funzionante</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Realizzazione dei primi 10 campioni fisici con
+              scheda PCB master e cassa.</div>
+          </div>
+
+          <div
+            style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--accent-gold);">PASSO 4</div>
+            <div style="font-weight: 700; font-size: 14px; margin: 4px 0;">Bandi Regionali & Pre-Seed</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Candidatura a fondi FESR Piemonte e apertura
+              round finanziario pilota.</div>
+          </div>
+        </div>
+
+        <div
+          style="background: rgba(197, 168, 128, 0.1); border: 1px solid var(--accent-gold); border-radius: var(--radius-md); padding: 18px; text-align: center; margin-top: auto;">
+          <div
+            style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">
+            SEFTY — Il futuro della sicurezza personale inizia ora.
+          </div>
+          <p style="font-size: 13px; color: var(--accent-gold-light); margin-bottom: 12px;">Grazie per l'attenzione.
+            Siamo pronti per le domande e per approfondire ogni dettaglio.</p>
+          <button class="btn-pill btn-gold" onclick="goToSlide(1)">
+            🔄 Rivedi Presentazione dall'Inizio
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- BOTTOM CONTROL BAR                                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <footer class="deck-footer">
+    <div class="footer-nav-group">
+      <button class="btn-pill" id="btn-prev-slide">
+        ◀ Indietro
+      </button>
+      <button class="btn-pill btn-gold" id="btn-next-slide">
+        Avanti ▶
+      </button>
+    </div>
+
+    <div class="footer-tips">
+      <span>Scorciatoie: <span class="kbd-badge">Spazio / →</span> Avanti • <span class="kbd-badge">←</span> Indietro •
+        <span class="kbd-badge">N</span> Note Relatore • <span class="kbd-badge">F</span> Fullscreen • <span
+          class="kbd-badge">I</span> Indice</span>
+    </div>
+
+    <div>
+      <button class="btn-pill" onclick="openIndexModal()">
+        📑 Tutte le Slide (16)
+      </button>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MODAL: INDEX GRID                                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-index-deck">
+    <div class="modal-content deck-index-modal">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-heading); font-size: 18px;">Indice delle 16 Slide di Presentazione</h3>
+        <button class="modal-close" onclick="closeIndexModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="deck-index-grid" id="deck-index-grid">
+          <!-- Populated dynamically by demo.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MODAL: 3D VIEWER (Soluzione A & B)                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-3d-viewer">
+    <div class="modal-content modal-3d">
+      <div class="modal-header">
+        <h3 id="modal-3d-title" style="font-family: var(--font-heading); font-size: 16px;">Visualizzatore 3D</h3>
+        <button class="modal-close" onclick="close3DViewer()">✕</button>
+      </div>
+      <div class="modal-body modal-iframe-body">
+        <iframe id="iframe-3d-viewer" src="about:blank" title="3D Viewer"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MODAL: CONFIRM REPORT                                      -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-confirm-report">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="confirm-report-icon" style="font-size: 24px;">💡</span>
+          <h3 id="confirm-report-title" style="font-family: var(--font-heading); font-size: 16px;">Conferma Segnalazione
+          </h3>
+        </div>
+        <button class="modal-close" onclick="closeConfirmReportModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div
+          style="background: rgba(0,0,0,0.4); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 13px; color: #34d399;"
+          id="confirm-report-coords">
+          GPS: 45.070300, 7.686900
+        </div>
+        <div style="margin-top: 14px;">
+          <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Nota
+            descrittiva (opzionale):</label>
+          <textarea id="report-note-input" class="form-input" rows="3"
+            placeholder="Es. Tre lampioni spenti, passaggio pedonale buio..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" onclick="closeConfirmReportModal()">Annulla</button>
+        <button class="btn-pill btn-gold" onclick="submitConfirmedReport()">Invia Segnalazione al Cloud ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MODAL: ADD ITEM                                            -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-add-item">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-heading); font-size: 16px;">Associa Nuovo Oggetto / Sefty Tag</h3>
+        <button class="modal-close" onclick="closeAddItemModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Nome
+            dell'Oggetto:</label>
+          <input type="text" id="new-item-name" class="form-input"
+            placeholder="Es. Zaino Lavoro, Borsa Pelle, Chiavi Moto">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label
+            style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Categoria:</label>
+          <select id="new-item-category" class="form-input">
+            <option value="borsa">👜 Borsa / Zaino</option>
+            <option value="chiavi">🔑 Chiavi</option>
+            <option value="laptop">💻 Laptop / Elettronica</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Codice
+            Seriale Sefty Tag (BLE):</label>
+          <input type="text" id="new-item-tag" class="form-input"
+            placeholder="Es. TAG-8832 (Lascia vuoto per generare)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" onclick="closeAddItemModal()">Annulla</button>
+        <button class="btn-pill btn-gold" onclick="submitNewItem()">Conferma Associazione ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Slide Deck Engine JS -->
+  <script>
+    /**
+     * ==============================================================
+     *  SEFTY INTERACTIVE SLIDE DECK ENGINE (demo.js)
+     *  16 Professional Slides with Speaker Notes ("Cosa Dire"),
+     *  Interactive 3D Viewers, 7-Phase Simulator, Live Map & APIs
+     * ==============================================================
+     */
+
+    // ══════════════════════════════════════════════════════════════
+    //  1. SLIDE REGISTRY & DEFINITIONS (1-16)
+    // ══════════════════════════════════════════════════════════════
+    const SLIDES = [
+      { id: 1, num: "01", title: "Perché nasce SEFTY", tag: "VISIONE & ORIGINE", status: "CONCETTO VALIDATO" },
+      { id: 2, num: "02", title: "Il Problema", tag: "ANALISI SCENARIO", status: "DATI REALI" },
+      { id: 3, num: "03", title: "La Soluzione", tag: "ECOSISTEMA", status: "APPROCCIO OLISTICO" },
+      { id: 4, num: "04", title: "Il Dispositivo", tag: "HARDWARE 3D", status: "MODELLI 3D PRONTI" },
+      { id: 5, num: "05", title: "Come funziona l'emergenza", tag: "PROTOCOLLO SOS", status: "SIMULATORE LIVE" },
+      { id: 6, num: "06", title: "La Mappa SEFTY Live", tag: "GEOLOCALIZZAZIONE", status: "MAPPA OPERATIVA" },
+      { id: 7, num: "07", title: "Le Segnalazioni", tag: "COMMUNITY", status: "COLLEGATO AL CLOUD" },
+      { id: 8, num: "08", title: "Il Timer di Rientro", tag: "PROTEZIONE ATTIVA", status: "TESTABILE LIVE" },
+      { id: 9, num: "09", title: "Sefty Giorno", tag: "GEOFENCING RADAR", status: "SIMULAZIONE PROSSIMITÀ" },
+      { id: 10, num: "10", title: "I Miei Oggetti / Sefty Tag", tag: "ASSET TRACKING", status: "OPERATIVO API" },
+      { id: 11, num: "11", title: "Sefty Index", tag: "ALGORITMO TERRITORIALE", status: "IN SVILUPPO" },
+      { id: 12, num: "12", title: "Sefty come Ecosistema", tag: "ARCHITETTURA", status: "END-TO-END" },
+      { id: 13, num: "13", title: "Dove siamo oggi", tag: "STATO AVANZAMENTO", status: "ASSET FUNZIONANTI" },
+      { id: 14, num: "14", title: "Piano di Sviluppo", tag: "ROADMAP 5 FASI", status: "PIANO 12-18 MESI" },
+      { id: 15, num: "15", title: "Perché I3P", tag: "PARTNERSHIP", status: "POLITECNICO DI TORINO" },
+      { id: 16, num: "16", title: "Prossimi Passi", tag: "EXECUTION", status: "PROSSIMI 90 GIORNI" }
+    ];
+
+    // Global State
+    const DemoState = {
+      currentSlide: 1,
+      totalSlides: 16,
+      showSpeakerNotes: true,
+      emergencyPhase: 0,
+      cancelTimer: null,
+      cancelCountdown: 5.0,
+      mapInstance: null,
+      mapMarkers: [],
+      userLocation: { lat: 45.0703, lon: 7.6869 }, // Piazza Castello, Torino
+      returnTimerSeconds: 900,
+      returnTimerInterval: null,
+      returnTimerActive: false,
+      geofenceRadius: 30,
+      items: [
+        { id: 1, nome: "Borsa in Pelle Nera", categoria: "borsa", colore: "#c5a880", tagId: "TAG-4482", status: "connesso", rssi: -58, battery: 92 },
+        { id: 2, nome: "Zaino Lavoro Laptop", categoria: "laptop", colore: "#3b82f6", tagId: "TAG-9103", status: "connesso", rssi: -64, battery: 84 },
+        { id: 3, nome: "Mazzo Chiavi Casa", categoria: "chiavi", colore: "#10b981", tagId: "TAG-1229", status: "connesso", rssi: -52, battery: 96 }
+      ],
+      reports: [
+        { id: 101, categoria: "illuminazione", titolo: "💡 Lampioni spenti in via Roma", lat: 45.0680, lon: 7.6830, orario: "15 min fa", icona: "💡", colore: "#f59e0b" },
+        { id: 102, categoria: "sospetto", titolo: "👀 Presenza sospetta vicino parcheggio", lat: 45.0725, lon: 7.6895, orario: "35 min fa", icona: "👀", colore: "#8b5cf6" },
+        { id: 103, categoria: "pericolo", titolo: "⚠️ Rissa verbale piazza San Carlo", lat: 45.0672, lon: 7.6815, orario: "1 ora fa", icona: "⚠️", colore: "#ef4444" }
+      ],
+      pendingCategory: null
+    };
+
+    // ══════════════════════════════════════════════════════════════
+    //  2. INITIALIZATION ON DOM READY
+    // ══════════════════════════════════════════════════════════════
+    document.addEventListener("DOMContentLoaded", () => {
+      buildTimelinePills();
+      buildIndexGrid();
+      initDeckNavigation();
+      initEmergencySimulator();
+      initReturnTimer();
+      initGeofence();
+      renderItemsList();
+      goToSlide(1);
+
+      // Keyboard Navigation
+      document.addEventListener("keydown", handleDeckKeyboard);
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    //  3. SLIDE DECK NAVIGATION & CONTROLLER
+    // ══════════════════════════════════════════════════════════════
+    function buildTimelinePills() {
+      const container = document.getElementById("deck-timeline-pills");
+      if (!container) return;
+      container.innerHTML = "";
+
+      SLIDES.forEach(s => {
+        const pill = document.createElement("div");
+        pill.className = "timeline-step-pill";
+        pill.id = `pill-${s.id}`;
+        pill.title = `Slide ${s.num}: ${s.title}`;
+        pill.addEventListener("click", () => goToSlide(s.id));
+        container.appendChild(pill);
+      });
+    }
+
+    function buildIndexGrid() {
+      const grid = document.getElementById("deck-index-grid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      SLIDES.forEach(s => {
+        const tile = document.createElement("div");
+        tile.className = "index-tile";
+        tile.id = `index-tile-${s.id}`;
+        tile.innerHTML = `
+      <div class="tile-num">SLIDE ${s.num}</div>
+      <div class="tile-title">${s.title}</div>
+    `;
+        tile.addEventListener("click", () => {
+          goToSlide(s.id);
+          closeIndexModal();
+        });
+        grid.appendChild(tile);
+      });
+    }
+
+    function initDeckNavigation() {
+      const btnPrev = document.getElementById("btn-prev-slide");
+      const btnNext = document.getElementById("btn-next-slide");
+      const btnNotes = document.getElementById("btn-toggle-notes");
+      const btnIndex = document.getElementById("btn-open-index");
+      const btnFull = document.getElementById("btn-toggle-fullscreen");
+
+      if (btnPrev) btnPrev.addEventListener("click", prevSlide);
+      if (btnNext) btnNext.addEventListener("click", nextSlide);
+      if (btnNotes) btnNotes.addEventListener("click", toggleSpeakerNotes);
+      if (btnIndex) btnIndex.addEventListener("click", openIndexModal);
+      if (btnFull) btnFull.addEventListener("click", toggleFullscreen);
+    }
+
+    function goToSlide(slideIndex) {
+      if (slideIndex < 1) slideIndex = 1;
+      if (slideIndex > DemoState.totalSlides) slideIndex = DemoState.totalSlides;
+
+      DemoState.currentSlide = slideIndex;
+      const slideData = SLIDES.find(s => s.id === slideIndex);
+
+      // Update Slide Elements
+      document.querySelectorAll(".slide-item").forEach(el => {
+        const sId = parseInt(el.getAttribute("data-slide"), 10);
+        if (sId === slideIndex) {
+          el.classList.add("active");
+        } else {
+          el.classList.remove("active");
+        }
+      });
+
+      // Update Pills
+      SLIDES.forEach(s => {
+        const pill = document.getElementById(`pill-${s.id}`);
+        const tile = document.getElementById(`index-tile-${s.id}`);
+        if (pill) {
+          pill.classList.remove("active", "completed");
+          if (s.id === slideIndex) pill.classList.add("active");
+          else if (s.id < slideIndex) pill.classList.add("completed");
+        }
+        if (tile) {
+          tile.classList.toggle("active", s.id === slideIndex);
+        }
+      });
+
+      // Update Header Counters
+      const counterEl = document.getElementById("deck-slide-counter");
+      if (counterEl) counterEl.textContent = `${slideData.num} / ${DemoState.totalSlides}`;
+
+      // Hook specific slide activations
+      if (slideIndex === 6) {
+        setTimeout(initMapIfNeeded, 200);
+      }
+    }
+
+    function nextSlide() {
+      if (DemoState.currentSlide < DemoState.totalSlides) {
+        goToSlide(DemoState.currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (DemoState.currentSlide > 1) {
+        goToSlide(DemoState.currentSlide - 1);
+      }
+    }
+
+    function handleDeckKeyboard(e) {
+      // Ignore if user is typing in form inputs
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
+
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp" || e.key === "Backspace") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "f" || e.key === "F") {
+        toggleFullscreen();
+      } else if (e.key === "n" || e.key === "N") {
+        toggleSpeakerNotes();
+      } else if (e.key === "i" || e.key === "I") {
+        openIndexModal();
+      } else if (e.key === "Escape") {
+        closeIndexModal();
+        close3DViewer();
+      }
+    }
+
+    function toggleSpeakerNotes() {
+      DemoState.showSpeakerNotes = !DemoState.showSpeakerNotes;
+      const columns = document.querySelectorAll(".slide-speaker-column");
+      const btn = document.getElementById("btn-toggle-notes");
+
+      columns.forEach(col => {
+        col.style.display = DemoState.showSpeakerNotes ? "flex" : "none";
+      });
+
+      document.querySelectorAll(".slide-item").forEach(slide => {
+        if (!DemoState.showSpeakerNotes) {
+          slide.style.gridTemplateColumns = "1fr";
+        } else {
+          slide.style.gridTemplateColumns = "460px 1fr";
+        }
+      });
+
+      if (btn) btn.classList.toggle("active-toggle", DemoState.showSpeakerNotes);
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => { });
+      } else {
+        document.exitFullscreen().catch(() => { });
+      }
+    }
+
+    function openIndexModal() {
+      const modal = document.getElementById("modal-index-deck");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeIndexModal() {
+      const modal = document.getElementById("modal-index-deck");
+      if (modal) modal.classList.remove("active");
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  4. 3D MODAL VIEWERS (Soluzione A & B)
+    // ══════════════════════════════════════════════════════════════
+    function open3DViewer(solution) {
+      const modal = document.getElementById("modal-3d-viewer");
+      const iframe = document.getElementById("iframe-3d-viewer");
+      const title = document.getElementById("modal-3d-title");
+
+      if (solution === "A") {
+        title.textContent = "SEFTY — SOLUZIONE A (Pebble & Capsule Wearable 3D)";
+        iframe.src = "http://localhost:5174/"; // Local 3D Vite server
+      } else {
+        title.textContent = "SEFTY — SOLUZIONE B (Bracciale Aura Linea 3D)";
+        iframe.src = "soluzione_b.html";
+      }
+
+      if (modal) modal.classList.add("active");
+    }
+
+    function close3DViewer() {
+      const modal = document.getElementById("modal-3d-viewer");
+      const iframe = document.getElementById("iframe-3d-viewer");
+      if (modal) modal.classList.remove("active");
+      if (iframe) iframe.src = "about:blank";
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  5. EMERGENCY SIMULATOR (7-Phase Flow)
+    // ══════════════════════════════════════════════════════════════
+    const EMERGENCY_PHASES_DATA = [
+      {
+        phase: 1,
+        title: "1. TRIGGER FISICO DISCRETO",
+        desc: "L'utente preme il pulsante sul bracciale per 3 secondi. Il chip BLE trasmette immediatamente un pacchetto cifrato all'app Sefty sullo smartphone.",
+        status: "BLE 5.2 TRIGGER INVIATO"
+      },
+      {
+        phase: 2,
+        title: "2. FILTRO ANTI-FALSO ALLARME (5s)",
+        desc: "Il bracciale attiva una leggera vibrazione aptica. Hai 5 secondi di tempo: se è una pressione involontaria, 2 click rapidi annullano l'evento senza generare falsi allarmi.",
+        status: "COUNTDOWN DI SICUREZZA ATTIVO"
+      },
+      {
+        phase: 3,
+        title: "3. ACQUISIZIONE GPS AD ALTA PRECISIONE",
+        desc: "L'app acquisisce le coordinate satellitari correnti (lat/lon, accuratezza ±5m, velocità di spostamento).",
+        status: "GPS LOCK: 45.070300, 7.686900"
+      },
+      {
+        phase: 4,
+        title: "4. DISPACCIO SMS & NOTIFICHE PUSH",
+        desc: "Il cloud invia immediatamente alert prioritari ai contatti fidati (Guardian) con link alla mappa live.",
+        status: "GUARDIAN ALLERTATI: 3 CONTATTI"
+      },
+      {
+        phase: 5,
+        title: "5. ATTIVAZIONE STREAMING AUDIO LIVE",
+        desc: "Si apre il canale audio crittografato via broker MQTT Mosquitto per consentire l'ascolto ambientale ai soccorritori.",
+        status: "MQTT AUDIO STREAMING: ATTIVO"
+      },
+      {
+        phase: 6,
+        title: "6. RILEVAMENTO SAFE POINTS TERRITORIALI",
+        desc: "La piattaforma calcola i presidi di soccorso più vicini (Farmacie 24h, Commissariati, Safe Points convenzionati).",
+        status: "2 SAFE POINTS TROVATI A <300m"
+      },
+      {
+        phase: 7,
+        title: "7. REGISTRO PROVE & ARCHIVIAZIONE FORENSE",
+        desc: "Salvataggio immutabile della traccia GPS, registrazione e timestamp per fini legali e di sicurezza.",
+        status: "SESSIONE EMERGENZA SIGILLATA CON SUCCESSO"
+      }
+    ];
+
+    function initEmergencySimulator() {
+      renderEmergencyPhaseUI(0);
+    }
+
+    function startEmergencySim() {
+      DemoState.emergencyPhase = 1;
+      renderEmergencyPhaseUI(1);
+
+      // Auto transition to phase 2 after 1.5s
+      setTimeout(() => {
+        if (DemoState.emergencyPhase === 1) {
+          advanceToPhase2();
+        }
+      }, 1500);
+    }
+
+    function advanceToPhase2() {
+      DemoState.emergencyPhase = 2;
+      DemoState.cancelCountdown = 5.0;
+      renderEmergencyPhaseUI(2);
+
+      clearInterval(DemoState.cancelTimer);
+      DemoState.cancelTimer = setInterval(() => {
+        DemoState.cancelCountdown -= 0.1;
+        const countVal = document.getElementById("sim-countdown-val");
+        const fillBar = document.getElementById("sim-countdown-fill");
+
+        if (countVal) countVal.textContent = Math.max(0, DemoState.cancelCountdown).toFixed(1) + "s";
+        if (fillBar) fillBar.style.width = (DemoState.cancelCountdown / 5.0 * 100) + "%";
+
+        if (DemoState.cancelCountdown <= 0) {
+          clearInterval(DemoState.cancelTimer);
+          if (DemoState.emergencyPhase === 2) {
+            DemoState.emergencyPhase = 3;
+            renderEmergencyPhaseUI(3);
+          }
+        }
+      }, 100);
+    }
+
+    function cancelEmergencySim() {
+      clearInterval(DemoState.cancelTimer);
+      DemoState.emergencyPhase = 0;
+      renderEmergencyPhaseUI(0);
+      alert("🛑 Allarme annullato con successo durante la finestra di 5s (Falso Positivo evitato).");
+    }
+
+    function nextEmergencyPhase() {
+      if (DemoState.emergencyPhase < 7) {
+        clearInterval(DemoState.cancelTimer);
+        DemoState.emergencyPhase++;
+        renderEmergencyPhaseUI(DemoState.emergencyPhase);
+      }
+    }
+
+    function resetEmergencySim() {
+      clearInterval(DemoState.cancelTimer);
+      DemoState.emergencyPhase = 0;
+      renderEmergencyPhaseUI(0);
+    }
+
+    function renderEmergencyPhaseUI(phase) {
+      const display = document.getElementById("sim-monitor-content");
+      if (!display) return;
+
+      // Update tabs
+      for (let i = 1; i <= 7; i++) {
+        const tab = document.getElementById(`sim-tab-${i}`);
+        if (tab) {
+          tab.classList.remove("active", "completed");
+          if (i === phase) tab.classList.add("active");
+          else if (i < phase) tab.classList.add("completed");
+        }
+      }
+
+      if (phase === 0) {
+        display.innerHTML = `
+      <div style="text-align: center; padding: 20px;">
+        <div style="font-size: 40px; margin-bottom: 8px;">🛡️</div>
+        <h4 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">Protocollo di Emergenza Sefty</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); max-width: 480px; margin: 0 auto 16px;">
+          Fai clic sul pulsante in basso per simulare l'attivazione discreta dal bracciale ed osservare le 7 fasi conformi allo Schema Funzionale.
+        </p>
+        <button class="btn-pill btn-gold" onclick="startEmergencySim()" style="padding: 10px 24px; font-size: 14px;">
+          🚨 Simula Pressione Emergenza Wearable
+        </button>
+      </div>
+    `;
+        return;
+      }
+
+      const pData = EMERGENCY_PHASES_DATA[phase - 1];
+      let countdownHTML = "";
+
+      if (phase === 2) {
+        countdownHTML = `
+      <div style="margin: 12px 0;">
+        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 12px; color: #ef4444;">
+          <span>Finestra Annullamento Immediato</span>
+          <span id="sim-countdown-val">5.0s</span>
+        </div>
+        <div class="sim-countdown-bar-container">
+          <div id="sim-countdown-fill" class="sim-countdown-bar-fill"></div>
+        </div>
+      </div>
+    `;
+      }
+
+      display.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <h4 style="font-size: 16px; font-weight: 800; color: var(--text-primary);">${pData.title}</h4>
+      <span class="status-badge badge-demo">FASE ${phase} / 7</span>
+    </div>
+    <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.45;">${pData.desc}</p>
+    ${countdownHTML}
+    <div style="margin-top: 14px; background: rgba(0,0,0,0.5); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-subtle); font-family: monospace; font-size: 12px; color: #34d399;">
+      <strong>STATUS:</strong> ${pData.status}
+    </div>
+    <div style="margin-top: 16px; display: flex; gap: 10px;">
+      ${phase === 2 ? `
+        <button class="btn-pill" onclick="cancelEmergencySim()" style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5;">
+          🛑 Simula Doppio Click Annullamento
+        </button>
+      ` : ''}
+      ${phase < 7 ? `
+        <button class="btn-pill btn-gold" onclick="nextEmergencyPhase()">
+          Passo Successivo ⏭️
+        </button>
+      ` : `
+        <button class="btn-pill btn-gold" onclick="resetEmergencySim()">
+          🔄 Nuova Simulazione
+        </button>
+      `}
+      <button class="btn-pill" onclick="resetEmergencySim()" style="color: var(--text-muted);">
+        Reset
+      </button>
+    </div>
+  `;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  6. LIVE MAP (Leaflet Engine)
+    // ══════════════════════════════════════════════════════════════
+    function initMapIfNeeded() {
+      const mapEl = document.getElementById("leaflet-demo-map");
+      if (!mapEl || DemoState.mapInstance) return;
+
+      if (typeof L === "undefined") {
+        console.warn("Leaflet library is loading...");
+        return;
+      }
+
+      DemoState.mapInstance = L.map('leaflet-demo-map', {
+        zoomControl: true,
+        attributionControl: false
+      }).setView([DemoState.userLocation.lat, DemoState.userLocation.lon], 15);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19
+      }).addTo(DemoState.mapInstance);
+
+      // User Marker
+      const userIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: '<div style="background: #c5a880; width: 18px; height: 18px; border-radius: 50%; border: 3px solid #0b0f17; box-shadow: 0 0 14px #c5a880;"></div>',
+        iconSize: [18, 18]
+      });
+      L.marker([DemoState.userLocation.lat, DemoState.userLocation.lon], { icon: userIcon })
+        .addTo(DemoState.mapInstance)
+        .bindPopup("<strong>Tu (Posizione GPS)</strong><br>Piazza Castello, Torino")
+        .openPopup();
+
+      // Safe Points
+      const safeIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: '<div style="background: #10b981; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #ffffff; box-shadow: 0 0 10px #10b981;"></div>',
+        iconSize: [16, 16]
+      });
+
+      L.marker([45.0718, 7.6845], { icon: safeIcon }).addTo(DemoState.mapInstance).bindPopup("<strong>Safe Point:</strong> Farmacia Centrale 24h");
+      L.marker([45.0685, 7.6890], { icon: safeIcon }).addTo(DemoState.mapInstance).bindPopup("<strong>Safe Point:</strong> Commissariato Polizia Centro");
+
+      // Render Initial Reports
+      renderMapReports();
+    }
+
+    function renderMapReports() {
+      if (!DemoState.mapInstance) return;
+
+      DemoState.mapMarkers.forEach(m => DemoState.mapInstance.removeLayer(m));
+      DemoState.mapMarkers = [];
+
+      DemoState.reports.forEach(r => {
+        const repIcon = L.divIcon({
+          className: 'custom-report-pin',
+          html: `<div style="background: ${r.colore}; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">${r.icona}</div>`,
+          iconSize: [22, 22]
+        });
+
+        const m = L.marker([r.lat, r.lon], { icon: repIcon })
+          .addTo(DemoState.mapInstance)
+          .bindPopup(`<strong>${r.titolo}</strong><br><small>Segnalato: ${r.orario}</small>`);
+        DemoState.mapMarkers.push(m);
+      });
+    }
+
+    function recenterMap() {
+      if (DemoState.mapInstance) {
+        DemoState.mapInstance.setView([DemoState.userLocation.lat, DemoState.userLocation.lon], 15, { animate: true });
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  7. SEGNALAZIONI WORKFLOW
+    // ══════════════════════════════════════════════════════════════
+    function selectReportCategory(catKey, catName) {
+      const icons = { illuminazione: "💡", sospetto: "👀", pericolo: "⚠️" };
+      const colors = { illuminazione: "#f59e0b", sospetto: "#8b5cf6", pericolo: "#ef4444" };
+
+      DemoState.pendingCategory = {
+        key: catKey,
+        name: catName,
+        icon: icons[catKey] || "📍",
+        color: colors[catKey] || "#c5a880"
+      };
+
+      const modal = document.getElementById("modal-confirm-report");
+      document.getElementById("confirm-report-icon").textContent = DemoState.pendingCategory.icon;
+      document.getElementById("confirm-report-title").textContent = `Conferma: ${catName}`;
+      document.getElementById("confirm-report-coords").textContent = `GPS: ${DemoState.userLocation.lat.toFixed(6)}, ${DemoState.userLocation.lon.toFixed(6)}`;
+
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeConfirmReportModal() {
+      const modal = document.getElementById("modal-confirm-report");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function submitConfirmedReport() {
+      if (!DemoState.pendingCategory) return;
+
+      const noteInput = document.getElementById("report-note-input");
+      const note = noteInput ? noteInput.value.trim() : "";
+
+      const newRep = {
+        id: Date.now(),
+        categoria: DemoState.pendingCategory.key,
+        titolo: note ? `${DemoState.pendingCategory.name} — "${note}"` : DemoState.pendingCategory.name,
+        lat: DemoState.userLocation.lat + (Math.random() - 0.5) * 0.003,
+        lon: DemoState.userLocation.lon + (Math.random() - 0.5) * 0.003,
+        colore: DemoState.pendingCategory.color,
+        icona: DemoState.pendingCategory.icon,
+        orario: "Adesso (Appena inviata)"
+      };
+
+      DemoState.reports.unshift(newRep);
+      renderMapReports();
+
+      // Try real API call
+      fetch('/sefty-index/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoria: DemoState.pendingCategory.key,
+          lat: newRep.lat,
+          lon: newRep.lon,
+          dettagli: note || null
+        })
+      }).catch(() => { });
+
+      closeConfirmReportModal();
+      if (noteInput) noteInput.value = "";
+      alert(`✅ Segnalazione creata con successo!\nIl marker è stato aggiunto sulla mappa.`);
+      goToSlide(6); // Switch to map slide to see the result
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  8. RETURN TIMER ENGINE
+    // ══════════════════════════════════════════════════════════════
+    function initReturnTimer() {
+      updateTimerDisplay();
+    }
+
+    function setTimerPreset(min) {
+      DemoState.returnTimerSeconds = min * 60;
+      updateTimerDisplay();
+    }
+
+    function toggleReturnTimer() {
+      const btn = document.getElementById("btn-toggle-timer");
+      const badge = document.getElementById("timer-status-badge");
+
+      if (DemoState.returnTimerActive) {
+        // Stop
+        clearInterval(DemoState.returnTimerInterval);
+        DemoState.returnTimerActive = false;
+        if (btn) btn.textContent = "▶️ Avvia Timer di Rientro";
+        if (badge) {
+          badge.textContent = "INATTIVO";
+          badge.className = "status-badge badge-da-validare";
+        }
+      } else {
+        // Start
+        DemoState.returnTimerActive = true;
+        if (btn) btn.textContent = "⏹️ Conferma Arrivo & Ferma";
+        if (badge) {
+          badge.textContent = "ATTIVO (MONITORAGGIO IN CORSO)";
+          badge.className = "status-badge badge-operativo";
+        }
+
+        DemoState.returnTimerInterval = setInterval(() => {
+          if (DemoState.returnTimerSeconds > 0) {
+            DemoState.returnTimerSeconds--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(DemoState.returnTimerInterval);
+            simulateMissedReturn();
+          }
+        }, 1000);
+      }
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById("timer-display-digits");
+      if (!el) return;
+
+      const m = Math.floor(DemoState.returnTimerSeconds / 60);
+      const s = DemoState.returnTimerSeconds % 60;
+      el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function simulateMissedReturn() {
+      const badge = document.getElementById("timer-status-badge");
+      if (badge) {
+        badge.textContent = "🚨 MANCATO RIENTRO SCATTATO!";
+        badge.className = "status-badge badge-da-validare";
+      }
+      alert("🚨 ATTENZIONE: Timer di Rientro Scaduto!\n\nL'utente non ha confermato l'arrivo a destinazione.\nInvio immediato SOS con coordinate GPS ai contatti fidati (Guardian).");
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  9. GEOFENCING RADAR (Sefty Giorno)
+    // ══════════════════════════════════════════════════════════════
+    function initGeofence() {
+      updateGeofenceUI();
+    }
+
+    function updateGeofenceRadius(val) {
+      DemoState.geofenceRadius = parseInt(val, 10);
+      document.getElementById("geofence-radius-val").textContent = val + " m";
+      updateGeofenceUI();
+    }
+
+    function simulateMemberPosition(dist) {
+      const isOutOfRange = dist > DemoState.geofenceRadius;
+      const pin = document.getElementById("radar-member-pin");
+      const alertCard = document.getElementById("geofence-alert-card");
+      const distText = document.getElementById("geofence-distance-text");
+
+      if (isOutOfRange) {
+        if (pin) pin.style.transform = "translate(75px, -65px)";
+        if (distText) distText.textContent = `${dist} m (FUORI PERIMETRO ⚠️)`;
+        if (alertCard) {
+          alertCard.innerHTML = `
+        <div style="font-size: 24px;">🚨</div>
+        <div>
+          <strong style="color: #ef4444;">ALLERTA ALLONTANAMENTO!</strong>
+          <p style="font-size: 12px; color: var(--text-secondary);">Il membro ha superato il raggio di ${DemoState.geofenceRadius}m. Vibrazione haptic inviata.</p>
+        </div>
+      `;
+          alertCard.style.borderColor = "#ef4444";
+        }
+      } else {
+        if (pin) pin.style.transform = "translate(22px, 20px)";
+        if (distText) distText.textContent = `${dist} m (Entro il raggio)`;
+        if (alertCard) {
+          alertCard.innerHTML = `
+        <div style="font-size: 24px;">✅</div>
+        <div>
+          <strong style="color: #34d399;">Perimetro Sicuro</strong>
+          <p style="font-size: 12px; color: var(--text-secondary);">Dispositivo entro i limiti configurati.</p>
+        </div>
+      `;
+          alertCard.style.borderColor = "var(--border-subtle)";
+        }
+      }
+    }
+
+    function updateGeofenceUI() {
+      const ring = document.getElementById("radar-geofence-circle");
+      if (!ring) return;
+      const pixelSize = (DemoState.geofenceRadius / 80) * 220;
+      ring.style.width = pixelSize + "px";
+      ring.style.height = pixelSize + "px";
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  10. I MIEI OGGETTI / SEFTY TAG
+    // ══════════════════════════════════════════════════════════════
+    function renderItemsList() {
+      const container = document.getElementById("items-grid-container");
+      if (!container) return;
+
+      container.innerHTML = DemoState.items.map(item => `
+    <div class="item-badge-card">
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(197, 168, 128, 0.15); display: flex; align-items: center; justify-content: center; font-size: 18px;">
+          ${item.categoria === 'borsa' ? '👜' : item.categoria === 'chiavi' ? '🔑' : '💻'}
+        </div>
+        <div>
+          <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">${item.nome}</div>
+          <div style="font-size: 11px; color: var(--text-muted);">BLE ID: <code>${item.tagId}</code> • ${item.rssi} dBm</div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <span class="status-badge badge-operativo">CONNESSO</span>
+        <div style="font-size: 11px; color: #34d399; margin-top: 4px;">🔋 ${item.battery}%</div>
+      </div>
+    </div>
+  `).join("");
+    }
+
+    function openAddItemModal() {
+      const modal = document.getElementById("modal-add-item");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeAddItemModal() {
+      const modal = document.getElementById("modal-add-item");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function submitNewItem() {
+      const nameInput = document.getElementById("new-item-name");
+      const catInput = document.getElementById("new-item-category");
+      const tagInput = document.getElementById("new-item-tag");
+
+      const nome = nameInput ? nameInput.value.trim() : "";
+      const cat = catInput ? catInput.value : "borsa";
+      const tag = tagInput && tagInput.value.trim() ? tagInput.value.trim() : `TAG-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      if (!nome) {
+        alert("Inserisci un nome per l'oggetto.");
+        return;
+      }
+
+      DemoState.items.push({
+        id: Date.now(),
+        nome: nome,
+        categoria: cat,
+        colore: "#c5a880",
+        tagId: tag,
+        status: "connesso",
+        rssi: -55,
+        battery: 100
+      });
+
+      renderItemsList();
+      closeAddItemModal();
+      if (nameInput) nameInput.value = "";
+      alert(`✅ Oggetto "${nome}" associato con successo a Sefty Tag.`);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  11. SEFTY INDEX EXPLORER
+    // ══════════════════════════════════════════════════════════════
+    const TORINO_DISTRICTS = [
+      { nome: "Circoscrizione 1 (Centro / Crocetta)", score: 88, level: "Elevata Sicurezza", color: "#10b981", verified: 4, light: "94%" },
+      { nome: "Circoscrizione 3 (San Paolo / Cenisia)", score: 82, level: "Elevata Sicurezza", color: "#10b981", verified: 6, light: "88%" },
+      { nome: "Circoscrizione 8 (San Salvario / Po)", score: 71, level: "Attenzione Moderata", color: "#f59e0b", verified: 14, light: "79%" },
+      { nome: "Circoscrizione 7 (Aurora / Vanchiglia)", score: 62, level: "Rischio Rilevato", color: "#f97316", verified: 22, light: "68%" },
+      { nome: "Circoscrizione 6 (Barriera di Milano)", score: 54, level: "Rischio Rilevato", color: "#ef4444", verified: 31, light: "58%" }
+    ];
+
+    function inspectDistrictScore(index) {
+      const dist = TORINO_DISTRICTS[index];
+      if (!dist) return;
+
+      const scoreEl = document.getElementById("index-score-display");
+      const nameEl = document.getElementById("index-level-name");
+      const paramEl = document.getElementById("index-params-detail");
+
+      if (scoreEl) {
+        scoreEl.textContent = dist.score;
+        scoreEl.style.color = dist.color;
+      }
+      if (nameEl) nameEl.textContent = `${dist.nome}: ${dist.level}`;
+      if (paramEl) {
+        paramEl.innerHTML = `<strong>Parametri:</strong> Segnalazioni verificate: ${dist.verified} • Copertura illuminazione: ${dist.light} • Safe Points attivi: 12`;
+      }
+    }
+
+    // Global bridges for HTML buttons
+    window.goToSlide = goToSlide;
+    window.nextSlide = nextSlide;
+    window.prevSlide = prevSlide;
+    window.toggleSpeakerNotes = toggleSpeakerNotes;
+    window.openIndexModal = openIndexModal;
+    window.closeIndexModal = closeIndexModal;
+    window.open3DViewer = open3DViewer;
+    window.close3DViewer = close3DViewer;
+    window.startEmergencySim = startEmergencySim;
+    window.cancelEmergencySim = cancelEmergencySim;
+    window.nextEmergencyPhase = nextEmergencyPhase;
+    window.resetEmergencySim = resetEmergencySim;
+    window.recenterMap = recenterMap;
+    window.selectReportCategory = selectReportCategory;
+    window.closeConfirmReportModal = closeConfirmReportModal;
+    window.submitConfirmedReport = submitConfirmedReport;
+    window.setTimerPreset = setTimerPreset;
+    window.toggleReturnTimer = toggleReturnTimer;
+    window.simulateMissedReturn = simulateMissedReturn;
+    window.updateGeofenceRadius = updateGeofenceRadius;
+    window.simulateMemberPosition = simulateMemberPosition;
+    window.openAddItemModal = openAddItemModal;
+    window.closeAddItemModal = closeAddItemModal;
+    window.submitNewItem = submitNewItem;
+    window.inspectDistrictScore = inspectDistrictScore;
+
+  </script>
+</body>
+
+</html>

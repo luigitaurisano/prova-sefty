@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEFTY — La sicurezza, quando serve | Sito Ufficiale</title>
+  <meta name="description" content="Un ecosistema che unisce dispositivo, tecnologia e persone per accompagnarti nella vita quotidiana e nelle situazioni di emergenza.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: rgba(18, 24, 38, 0.7);
+      --bg-card-hover: rgba(26, 35, 54, 0.85);
+      --bg-cream: #F8F6F0;
+      --accent-gold: #c5a880;
+      --accent-gold-light: #e2cca9;
+      --accent-gold-dark: #967d58;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-subtle: rgba(197, 168, 128, 0.2);
+      --border-glow: rgba(197, 168, 128, 0.45);
+      --shadow-gold: 0 10px 35px -5px rgba(197, 168, 128, 0.25);
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Background Glows */
+    .ambient-glow-1 {
+      position: fixed;
+      top: -150px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(197, 168, 128, 0.12) 0%, rgba(7, 9, 14, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: fixed;
+      bottom: 10%;
+      left: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, rgba(7, 9, 14, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Navigation Bar */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(7, 9, 14, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    .nav-wrapper {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold-dark));
+      color: #07090e;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4);
+    }
+
+    .logo-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ffffff, var(--accent-gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: #07090e;
+      box-shadow: 0 4px 20px rgba(197, 168, 128, 0.35);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(197, 168, 128, 0.5);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: rgba(197, 168, 128, 0.1);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-light);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding-top: 160px;
+      padding-bottom: 100px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(197, 168, 128, 0.08);
+      border: 1px solid var(--border-subtle);
+      border-radius: 30px;
+      color: var(--accent-gold-light);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge i {
+      color: var(--accent-gold);
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #FFFFFF 20%, #E2CCA9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 780px;
+      margin: 0 auto 36px;
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .hero-visual-card {
+      background: linear-gradient(180deg, rgba(22, 30, 48, 0.8) 0%, rgba(11, 15, 24, 0.95) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .eco-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    .eco-box:hover {
+      background: rgba(197, 168, 128, 0.05);
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+
+    .eco-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(197, 168, 128, 0.12);
+      color: var(--accent-gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .eco-box h4 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .eco-box p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 60px;
+    }
+
+    .section-tag {
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    /* 2-Column Feature Layout */
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 90px;
+    }
+
+    .feature-row.reverse {
+      direction: rtl;
+    }
+
+    .feature-row.reverse .feature-content {
+      direction: ltr;
+    }
+
+    .feature-content h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .feature-content p {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .feature-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+    }
+
+    .highlight-item i {
+      color: var(--accent-gold);
+      font-size: 18px;
+      margin-top: 2px;
+    }
+
+    .highlight-item h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .highlight-item p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Interactive Demo Cards */
+    .interactive-card {
+      background: radial-gradient(circle at top left, rgba(28, 38, 58, 0.9), rgba(13, 17, 26, 0.95));
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .card-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .badge-rose {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-gold {
+      background: rgba(197, 168, 128, 0.15);
+      color: var(--accent-gold-light);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Haptic Hug Simulator */
+    .hug-sim-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .hug-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      border: none;
+      color: #07090e;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(197, 168, 128, 0.4);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hug-btn:active {
+      transform: scale(0.92);
+      box-shadow: 0 0 45px rgba(197, 168, 128, 0.9);
+    }
+
+    /* 3D Hardware Banner */
+    .hardware-banner {
+      background: linear-gradient(135deg, rgba(20, 28, 44, 0.9) 0%, rgba(10, 14, 22, 0.95) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 50px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hardware-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(197, 168, 128, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* 3 Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-gold);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .pillar-card i {
+      font-size: 36px;
+      color: var(--accent-gold);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .pillar-card h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .pillar-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Roadmap Timeline */
+    .roadmap-track {
+      position: relative;
+      max-width: 860px;
+      margin: 40px auto 0;
+      padding: 20px 0;
+    }
+
+    .roadmap-track::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--border-subtle);
+      transform: translateX(-50%);
+    }
+
+    .roadmap-step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .roadmap-step:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .roadmap-box {
+      width: 44%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+    }
+
+    .roadmap-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      border: 4px solid var(--bg-dark);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px var(--accent-gold);
+    }
+
+    /* Footer */
+    footer {
+      background: #040508;
+      border-top: 1px solid var(--border-subtle);
+      padding: 70px 0 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 320px;
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-col h5 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col ul a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover {
+      color: var(--accent-gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .feature-row {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .feature-row.reverse {
+        direction: ltr;
+      }
+      .hardware-banner {
+        grid-template-columns: 1fr;
+      }
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      .roadmap-track::before {
+        left: 20px;
+      }
+      .roadmap-step, .roadmap-step:nth-child(even) {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+      .roadmap-box {
+        width: calc(100% - 60px);
+      }
+      .roadmap-dot {
+        left: 20px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#hero" class="logo-brand">
+        <div class="logo-badge">S</div>
+        <div class="logo-text">SEFTY</div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#ecosistema">Ecosistema</a></li>
+        <li><a href="#notte">Sefty Notte</a></li>
+        <li><a href="#giorno">Sefty Giorno</a></li>
+        <li><a href="#hardware">Hardware 3D</a></li>
+        <li><a href="#index">Sefty Index</a></li>
+        <li><a href="#aziende">B2B & Welfare</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="sefty_3d_presentation.html" class="btn btn-outline">
+          <i class="fa-solid fa-cube"></i> 3D CAD
+        </a>
+        <a href="sefty_demo.html" class="btn btn-gold">
+          <i class="fa-solid fa-play"></i> Slide Deck
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01. Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <i class="fa-solid fa-shield-halved"></i> Ecosistema di Sicurezza Personale Integrata
+      </div>
+      
+      <h1 class="hero-title">La sicurezza, quando serve.</h1>
+      <p class="hero-subtitle">
+        Un ecosistema che unisce dispositivo, tecnologia e persone per accompagnarti nella vita quotidiana e nelle situazioni di emergenza.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#ecosistema" class="btn btn-gold" style="padding: 14px 34px; font-size: 16px;">
+          <i class="fa-solid fa-network-wired"></i> Scopri l'Ecosistema
+        </a>
+        <a href="sefty_3d_presentation.html" class="btn btn-outline" style="padding: 14px 30px; font-size: 16px;">
+          <i class="fa-solid fa-gem"></i> Guarda l'Hardware 3D
+        </a>
+      </div>
+
+      <!-- Hero Visual / Ecosystem Overview -->
+      <div class="hero-visual-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+          <span style="font-size: 13px; font-weight: 700; color: var(--accent-gold); letter-spacing: 1.5px; text-transform: uppercase;">
+            I 4 Pilastri dell'Architettura Sefty
+          </span>
+          <span style="font-size: 12px; color: var(--text-dim);">Live Sync • BLE / Cellular Ready</span>
+        </div>
+
+        <div class="ecosystem-grid">
+          <div class="eco-box">
+            <div class="eco-icon"><i class="fa-solid fa-ring"></i></div>
+            <h4>Dispositivo Hardware</h4>
+            <p>Smart bracelet & capsule gioiello con sensori, feedback aptico e attivazione anti-falso allarme.</p>
+          </div>
+
+          <div class="eco-box">
+            <div class="eco-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <h4>Applicazione Mobile</h4>
+            <p>Pannello di controllo per Sefty Notte, Sefty Giorno, Timer di Rientro e gestione Contatti Fidati.</p>
+          </div>
+
+          <div class="eco-box">
+            <div class="eco-icon"><i class="fa-solid fa-users"></i></div>
+            <h4>Community di Prossimità</h4>
+            <p>Rete territoriale di utenti pronti a intervenire e supportare in caso di pericolo nelle vicinanze.</p>
+          </div>
+
+          <div class="eco-box">
+            <div class="eco-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+            <h4>Centralino Operativo</h4>
+            <p>Interfaccia dedicata per la gestione centralizzata dell'emergenza ed escalation strutturata.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. Sefty Notte & SOS -->
+  <section id="notte">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Modulo Emergenza Notturna</span>
+        <h2 class="section-title">Quando hai bisogno di aiuto, basta un gesto.</h2>
+        <p class="section-desc">Pensato per accompagnare le persone durante gli spostamenti notturni e nelle situazioni in cui può essere difficile utilizzare lo smartphone.</p>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>Attivazione Discreta & Anti-Falso Positivo</h3>
+          <p>
+            Il dispositivo Sefty permette di attivare una procedura di emergenza attraverso una pressione prolungata. 
+            L'attivazione è progettata per evitare che un tocco accidentale generi immediatamente un allarme.
+          </p>
+
+          <div class="feature-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-hand-pointer"></i>
+              <div>
+                <h5>Pressione Prolungata Guidata</h5>
+                <p>La vibrazione aptica conferma all'utente la presa in carico senza dover guardare lo schermo.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-heart-pulse"></i>
+              <div>
+                <h5>Haptic Hug (Un Abbraccio Tattile)</h5>
+                <p>Quando l'emergenza viene presa in carico dai tuoi cari, il bracciale restituisce una vibrazione rassicurante.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="interactive-card">
+          <span class="card-badge badge-rose">Simulatore Haptic Hug</span>
+          <h4 style="font-size: 18px; margin-bottom: 8px;">Prova la vibrazione di risposta</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+            Premi il pulsante per simulare la conferma tattile ricevuta dal bracciale quando un contatto fidato risponde:
+          </p>
+
+          <div class="hug-sim-box">
+            <button class="hug-btn" id="btn-hug" onclick="triggerHugSim()">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+            <div id="hug-feedback" style="margin-top: 16px; font-size: 14px; font-weight: 600; color: var(--accent-gold-light);">
+              Tocca il cuore per inviare un abbraccio
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. Timer di Rientro & Contatti Fidati -->
+  <section id="rientro" style="background: rgba(255,255,255,0.01);">
+    <div class="container">
+      <div class="feature-row reverse">
+        <div class="feature-content">
+          <span class="section-tag">Prevenzione Senza Hardware</span>
+          <h3>Timer di Rientro: “Sei arrivato al sicuro?”</h3>
+          <p>
+            Non sempre hai bisogno di indossare un dispositivo. Con il Timer di Rientro imposti il tempo previsto per arrivare a destinazione.
+          </p>
+
+          <div class="feature-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-stopwatch"></i>
+              <div>
+                <h5>Monitoraggio Automatico Silenzioso</h5>
+                <p>Il timer accompagna il tragitto senza richiedere continue interazioni o consumi anomali.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-users-gear"></i>
+              <div>
+                <h5>Escalation Automatica ai Contatti Fidati</h5>
+                <p>Se non confermi il tuo arrivo sicuro entro il limite stabilito, il sistema avvisa automaticamente il tuo cerchio di contatti.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="interactive-card">
+          <span class="card-badge badge-gold">Cerchio di Contatti Fidati</span>
+          <div style="background: rgba(0,0,0,0.3); border-radius: var(--radius-md); padding: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 10px;">
+              <span style="font-weight: 700; font-size: 14px;">La Tua Rete Protetta</span>
+              <span style="font-size: 12px; color: var(--accent-emerald);"><i class="fa-solid fa-circle-check"></i> 3 Attivi</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                <span style="font-size: 13.5px;"><i class="fa-solid fa-user-shield" style="color: var(--accent-gold); margin-right: 8px;"></i> Mamma (Tutor Principale)</span>
+                <span style="font-size: 12px; color: var(--text-dim);">Notifiche Push & SOS</span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                <span style="font-size: 13.5px;"><i class="fa-solid fa-user-shield" style="color: var(--accent-gold); margin-right: 8px;"></i> Partner (Contatto Rapido)</span>
+                <span style="font-size: 12px; color: var(--text-dim);">Live Location</span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                <span style="font-size: 13.5px;"><i class="fa-solid fa-user-shield" style="color: var(--accent-gold); margin-right: 8px;"></i> Amico Fidato</span>
+                <span style="font-size: 12px; color: var(--text-dim);">Escalation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04. Sefty Giorno & Tutor -->
+  <section id="giorno">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Supervisione Diurna Famiglia & Gruppi</span>
+        <h2 class="section-title">Sefty Giorno: Protezione discreta per il giorno.</h2>
+        <p class="section-desc">Per situazioni in cui un adulto deve accompagnare e supervisionare bambini, anziani o gruppi in mobilità.</p>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-content">
+          <h3>Il Tutor crea il gruppo e stabilisce l'area sicura.</h3>
+          <p>
+            A differenza di Sefty Notte, il dispositivo per minori non è pensato come pulsante SOS da premere per gioco. Il controllo parte dal <strong>Tutor</strong>.
+          </p>
+
+          <div class="feature-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-draw-polygon"></i>
+              <div>
+                <h5>Raggio Dinamico di Allontanamento</h5>
+                <p>Se un membro supera la distanza stabilita dal Tutor, il bracciale vibra e l'app del genitore segnala immediatamente l'evento.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-person-walking-arrow-right"></i>
+              <div>
+                <h5>Intervento Preventivo</h5>
+                <p>L'obiettivo è intervenire prima che una situazione di distrazione si trasformi in un'emergenza.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="interactive-card">
+          <span class="card-badge badge-emerald">Sefty Giorno Live Panel</span>
+          <div style="text-align: center; padding: 20px 0;">
+            <div style="width: 140px; height: 140px; border-radius: 50%; border: 2px dashed var(--accent-emerald); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(16, 185, 129, 0.05);">
+              <i class="fa-solid fa-child" style="font-size: 40px; color: var(--accent-emerald);"></i>
+              <div style="position: absolute; bottom: 8px; font-size: 11px; font-weight: 700; color: #fff; background: #07090e; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--accent-emerald);">
+                In Area: 15m
+              </div>
+            </div>
+            <h4 style="font-size: 16px; margin-bottom: 6px;">Gruppo "Gita Parco"</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">Soglia max: 30 metri • Batteria Bracciale: 94%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. Hardware & Design 3D -->
+  <section id="hardware" style="background: radial-gradient(circle at center, rgba(20, 28, 44, 0.5) 0%, rgba(7, 9, 14, 0.9) 100%);">
+    <div class="container">
+      <div class="hardware-banner">
+        <div>
+          <span class="section-tag" style="color: var(--accent-gold-light);">Ingegneria & Alta Gioielleria</span>
+          <h2 style="font-family: 'Cinzel', serif; font-size: clamp(28px, 4vw, 38px); margin-bottom: 16px; color: #fff;">
+            Hardware SEFTY: Soluzione A (Pebble & Capsule) e Soluzione B (Aura Linea)
+          </h2>
+          <p style="font-size: 15.5px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.7;">
+            Un'architettura hardware progettata per integrarsi con eleganza nel tuo stile. 
+            PCB Rigid-Flex a 4 strati, antenna integrata, ricarica wireless a induzione e finiture in titanio e oro satinato.
+          </p>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a href="sefty_3d_presentation.html" class="btn btn-gold">
+              <i class="fa-solid fa-cube"></i> Esplora Modello 3D Interattivo
+            </a>
+            <a href="sefty_soluzione_b.html" class="btn btn-outline">
+              <i class="fa-solid fa-microchip"></i> Scheda Esploso PCB
+            </a>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 30px;">
+            <i class="fa-solid fa-gem" style="font-size: 64px; color: var(--accent-gold); margin-bottom: 16px;"></i>
+            <h4 style="font-family: 'Cinzel', serif; font-size: 18px; margin-bottom: 8px;">Design Made in Italy</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Zero compromessi tra estetica luxury e affidabilità tecnologica di livello medicale.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06. Sefty Index & I Miei Oggetti -->
+  <section id="index">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Intelligenza Territoriale & Oggetti</span>
+        <h2 class="section-title">Conoscere il territorio. Proteggere ciò che conta.</h2>
+        <p class="section-desc">Sefty Index trasforma le informazioni del territorio in uno strumento di consapevolezza dinamica per muoversi in sicurezza.</p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <h4>Sefty Index</h4>
+          <p>Fotografia dinamica delle condizioni dell'area basata su segnalazioni verificate e dati territoriali.</p>
+        </div>
+
+        <div class="pillar-card">
+          <i class="fa-solid fa-tag"></i>
+          <h4>Sefty Tag (BLE)</h4>
+          <p>Un piccolo collegamento fisico-digitale per localizzare borse, zaini, chiavi e biciclette nell'app.</p>
+        </div>
+
+        <div class="pillar-card">
+          <i class="fa-solid fa-user-lock"></i>
+          <h4>Privacy by Design</h4>
+          <p>Dati protetti nella quotidianità e resi accessibili solo durante l'emergenza secondo le tue autorizzazioni.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07. Sefty per le Aziende (B2B) -->
+  <section id="aziende" style="background: rgba(255,255,255,0.01);">
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-content">
+          <span class="section-tag">Welfare & Corporate Safety</span>
+          <h3>La sicurezza può entrare anche nel welfare aziendale.</h3>
+          <p>
+            Attraverso un modello B2B dedicato, le aziende possono offrire servizi di sicurezza e tutela personale ai propri dipendenti, turnisti e personale in mobilità.
+          </p>
+
+          <div class="feature-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-briefcase"></i>
+              <div>
+                <h5>Piani Welfare Personalizzati</h5>
+                <p>Convenzioni dedicate e fornitura di dispositivi per la tutela negli spostamenti casa-lavoro.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-handshake"></i>
+              <div>
+                <h5>Partnership Istituzionali & Territoriali</h5>
+                <p>Integrazione con consorzi, distretti tecnologici ed enti locali per la sicurezza urbana.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="interactive-card">
+          <span class="card-badge badge-gold">Soluzioni Corporate</span>
+          <h4 style="font-size: 18px; margin-bottom: 12px;">Richiedi il Dossier per la tua Azienda</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+            Accedi alle schede tecniche, modelli di adozione per dipendenti e vantaggi fiscali previsti dalla normativa vigente.
+          </p>
+          <a href="mailto:info@sefty.it?subject=Richiesta%20Dossier%20B2B%20Sefty" class="btn btn-gold" style="width: 100%;">
+            <i class="fa-solid fa-envelope"></i> Contatta il Team B2B
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08. Roadmap -->
+  <section id="roadmap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Dove Siamo Oggi & Prossimi Passi</span>
+        <h2 class="section-title">Dalla visione a una base concreta.</h2>
+        <p class="section-desc">Sefty ha già una solida base software e funzionale. Il percorso successivo riguarda la trasformazione in prodotto industriale validato.</p>
+      </div>
+
+      <div class="roadmap-track">
+        <div class="roadmap-step">
+          <div class="roadmap-box">
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-emerald); text-transform: uppercase;">FASE 1 — COMPLETATA</span>
+            <h4 style="margin: 6px 0; color: #fff;">Software & Piattaforma</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">Backend microservizi, app mobile iOS/Android, simulazione dinamica e dashboard.</p>
+          </div>
+          <div class="roadmap-dot" style="background: var(--accent-emerald);"></div>
+        </div>
+
+        <div class="roadmap-step">
+          <div class="roadmap-box">
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase;">FASE 2 — IN CORSO</span>
+            <h4 style="margin: 6px 0; color: #fff;">CAD 3D & Prototipazione</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">Ingegneria hardware Soluzione A & B, PCB Rigid-Flex e test di fabbricabilità.</p>
+          </div>
+          <div class="roadmap-dot"></div>
+        </div>
+
+        <div class="roadmap-step">
+          <div class="roadmap-box">
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-gold-light); text-transform: uppercase;">FASE 3 — PROSSIMO STEP</span>
+            <h4 style="margin: 6px 0; color: #fff;">Validazione & Mercato</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">Test sul campo, certificazioni CE/RED, produzione industriale e lancio B2C/B2B.</p>
+          </div>
+          <div class="roadmap-dot" style="background: var(--text-dim);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-brand">
+            <div class="logo-badge">S</div>
+            <div class="logo-text">SEFTY</div>
+          </div>
+          <p>
+            Dove la connessione diventa protezione. Ecosistema hardware e software per la sicurezza personale e di prossimità.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Ecosistema</h5>
+          <ul>
+            <li><a href="#notte">Sefty Notte</a></li>
+            <li><a href="#giorno">Sefty Giorno</a></li>
+            <li><a href="#rientro">Timer di Rientro</a></li>
+            <li><a href="#index">Sefty Index</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Hardware & CAD</h5>
+          <ul>
+            <li><a href="sefty_3d_presentation.html">Viewer 3D Soluzione A</a></li>
+            <li><a href="sefty_soluzione_b.html">Esploso PCB Soluzione B</a></li>
+            <li><a href="sefty_soluzione_B_componenti_3D.pdf">Scheda Tecnica PDF</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Presentazione</h5>
+          <ul>
+            <li><a href="sefty_demo.html">Slide Deck Interattivo</a></li>
+            <li><a href="#aziende">Welfare Aziendale B2B</a></li>
+            <li><a href="#roadmap">Roadmap & Vision</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 SEFTY Technologies. Tutti i diritti riservati.</div>
+        <div>Made in Italy • Privacy by Design</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function triggerHugSim() {
+      const feedback = document.getElementById('hug-feedback');
+      feedback.innerHTML = '✨ <strong>Vibrazione inviata!</strong> Il bracciale ha restituito l\'abbraccio tattile.';
+      feedback.style.color = '#10b981';
+      
+      if (navigator.vibrate) {
+        navigator.vibrate([150, 100, 250]);
+      }
+      
+      setTimeout(() => {
+        feedback.innerHTML = 'Tocca il cuore per inviare un abbraccio';
+        feedback.style.color = '#e2cca9';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

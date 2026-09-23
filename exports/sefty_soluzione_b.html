@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEFTY — Architettura Hardware Soluzione B (3D Interattivo)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+  <style>
+    :root {
+      --bg-cream: #F8F6F0;
+      --bg-card: rgba(255, 255, 255, 0.88);
+      --bg-glass: rgba(255, 255, 255, 0.78);
+      --text-dark: #1F1D1A;
+      --text-muted: #787168;
+      --accent-champagne: #CBB89D;
+      --accent-gold: #AF916E;
+      --border-color: rgba(216, 208, 196, 0.7);
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: auto;
+    }
+
+    .ui-layer {
+      position: relative;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .interactive {
+      pointer-events: auto;
+    }
+
+    /* Top Global Switcher */
+    .solution-switcher {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      background: rgba(30, 28, 26, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 4px 6px;
+      border-radius: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      z-index: 50;
+      pointer-events: auto;
+    }
+
+    .sol-link {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #C5BFB5;
+      transition: all 0.2s ease;
+    }
+
+    .sol-link.active {
+      background: #FFFFFF;
+      color: #1F1D1A;
+    }
+
+    .sol-link:hover:not(.active) {
+      color: #FFFFFF;
+    }
+
+    /* Header Bar */
+    header {
+      position: fixed;
+      top: 56px;
+      left: 30px;
+      right: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-group h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+    }
+
+    .brand-group p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(240, 236, 228, 0.7);
+      padding: 4px;
+      border-radius: 30px;
+    }
+
+    .nav-btn {
+      padding: 7px 16px;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .nav-btn.active,
+    .nav-btn:hover {
+      background: #FFFFFF;
+      color: var(--text-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .export-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--text-dark);
+      color: #FFFFFF;
+      border-color: var(--text-dark);
+    }
+
+    .scroll-content {
+      position: relative;
+      height: 400vh;
+      pointer-events: none;
+    }
+
+    .story-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+    }
+
+    .info-card {
+      max-width: 440px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      pointer-events: auto;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .badge-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+    }
+
+    .badge-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--text-dark);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .info-card h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .info-card p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .component-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .component-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(220, 214, 204, 0.6);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+    }
+
+    .comp-num {
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .comp-name {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .comp-detail {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      margin-top: 1px;
+    }
+
+    .bottom-controller {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 22px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      box-shadow: var(--shadow-sm);
+      pointer-events: auto;
+      z-index: 20;
+    }
+
+    .slider-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 160px;
+      height: 5px;
+      background: #E5DFC8;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .hint-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .legal-note {
+      position: fixed;
+      bottom: 24px;
+      left: 30px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .motto-note {
+      position: fixed;
+      bottom: 24px;
+      right: 30px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .preview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 14, 13, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      pointer-events: auto;
+    }
+
+    .preview-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 92vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Global Solution Switcher -->
+  <div class="solution-switcher">
+    <a href="/" class="sol-link">Soluzione A (AURA Linea Standalone)</a>
+    <a href="/sefty_soluzione_b.html" class="sol-link active">Soluzione B (Sistema Modulare)</a>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <div class="ui-layer">
+    <header class="interactive">
+      <div class="brand-group">
+        <h1>SEFTY — Architettura Hardware Soluzione B</h1>
+        <p>Due dispositivi. Un unico sistema di protezione.</p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-btn active" onclick="goToSection(0)">Vista Hero</button>
+        <button class="nav-btn" onclick="goToSection(1)">A · Bracciale AURA</button>
+        <button class="nav-btn" onclick="goToSection(2)">B · Modulo Sefty</button>
+        <button class="nav-btn" onclick="goToSection(3)">Architettura BLE</button>
+      </div>
+
+      <div class="export-actions">
+        <button class="btn-action" onclick="openPreview()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          Vedi Scheda 4K
+        </button>
+        <a class="btn-action" href="exports/sefty_soluzione_B_componenti_3D.png" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Scarica PNG
+        </a>
+        <a class="btn-action" href="exports/sefty_soluzione_B_componenti_3D.pdf" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+          Scarica PDF
+        </a>
+      </div>
+    </header>
+  </div>
+
+  <div class="scroll-content">
+
+    <!-- Section 1: Hero -->
+    <div class="story-section" style="justify-content: flex-start;">
+      <div class="info-card">
+        <div class="badge-label">Soluzione B · Panoramica</div>
+        <h2>Due Dispositivi Sinergici</h2>
+        <p>Un'architettura hardware sdoppiata per garantire massima discrezione ed eleganza sul corpo, combinata con
+          connettività satellitare e cellulare a lungo raggio nel modulo personale da borsa o tasca.</p>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <span
+            style="font-size: 0.72rem; padding: 5px 10px; background: rgba(200,185,160,0.25); border-radius: 20px; font-weight: 600; color: #6D5E4C;">Alluminio
+            Satinato Champagne</span>
+          <span
+            style="font-size: 0.72rem; padding: 5px 10px; background: rgba(200,185,160,0.25); border-radius: 20px; font-weight: 600; color: #6D5E4C;">BLE
+            5.3 + LTE-M / NB-IoT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Bracelet Exploded -->
+    <div class="story-section" style="justify-content: flex-start;">
+      <div class="info-card">
+        <div class="badge-label">
+          <span class="badge-icon">A</span>
+          Bracciale AURA LINEA
+        </div>
+        <h2>Architettura Esplosa Wearable</h2>
+        <p>Progettato per essere ultra-sottile e indistinguibile da un bracciale di lusso. Senza display, senza LED
+          aggressivi, con chiusura meccanica a scomparsa priva di magneti.</p>
+
+        <ul class="component-list">
+          <li class="component-item">
+            <span class="comp-num">01</span>
+            <div>
+              <div class="comp-name">Scocca Superiore Alluminio Champagne</div>
+              <div class="comp-detail">Profilo satinato continuo senza fessure</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">02</span>
+            <div>
+              <div class="comp-name">Pulsante Meccanico SOS & FPCB</div>
+              <div class="comp-detail">Micro-corsa calibrata anti-falso allarme + MCU BLE 5.3</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">03</span>
+            <div>
+              <div class="comp-name">Motore Aptico LRA & Batteria Li-Po Curva</div>
+              <div class="comp-detail">Feedback tattile silenzioso + cella ultra-sottile</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">04</span>
+            <div>
+              <div class="comp-name">Chiusura Meccanica a Scatto Nascosta</div>
+              <div class="comp-detail">2 micro-zone di sblocco a pressione laterale (No magneti)</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 3: Bag Module Exploded -->
+    <div class="story-section" style="justify-content: flex-end;">
+      <div class="info-card">
+        <div class="badge-label">
+          <span class="badge-icon">B</span>
+          Modulo SEFTY da Borsa
+        </div>
+        <h2>Architettura Esplosa Modulo IoT</h2>
+        <p>Formato a ciottolo compatto ed ergonomico da portare in borsa o tasca. Ospita l'hardware di comunicazione ad
+          alta potenza e la localizzazione GNSS.</p>
+
+        <ul class="component-list">
+          <li class="component-item">
+            <span class="comp-num">01</span>
+            <div>
+              <div class="comp-name">Scocca Satinata con Incisione 'sefty'</div>
+              <div class="comp-detail">Incisione laser tono su tono, texture opaca anti-graffio</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">02</span>
+            <div>
+              <div class="comp-name">Antenna Multibanda & Modem LTE-M / NB-IoT</div>
+              <div class="comp-detail">Antenna integrata per trasmissione cellulare d'emergenza</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">03</span>
+            <div>
+              <div class="comp-name">Ricevitore GNSS & SiP Nordic Semiconductor</div>
+              <div class="comp-detail">Posizionamento satellitare multi-costellazione ad alta precisione</div>
+            </div>
+          </li>
+          <li class="component-item">
+            <span class="comp-num">04</span>
+            <div>
+              <div class="comp-name">Batteria Li-Po Alta Capacità & Telaio IP68</div>
+              <div class="comp-detail">Lunga autonomia in standby e sigillatura a tenuta stagna</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 4: Architecture Flow -->
+    <div class="story-section" style="justify-content: center;">
+      <div class="info-card" style="max-width: 640px; text-align: center;">
+        <div class="badge-label" style="justify-content: center;">Architettura Funzionale</div>
+        <h2>Ecosistema di Protezione Distribuito</h2>
+        <p>La pressione del pulsante SOS sul bracciale invia un pacchetto crittografato AES-128 via BLE al Modulo Sefty,
+          che acquisisce immediatamente le coordinate GNSS e le trasmette alla centrale operativa via LTE-M / NB-IoT.
+        </p>
+
+        <div
+          style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; padding: 18px; background: rgba(255,255,255,0.75); border-radius: 16px; border: 1px solid var(--border-color);">
+          <div style="font-weight: 700; font-size: 0.82rem;">BRACCIALE<br><span
+              style="font-size: 0.72rem; font-weight: 400; color: var(--text-muted);">SOS · BLE · MCU · HAPTIC</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <span
+              style="font-size: 0.65rem; font-weight: 700; color: var(--accent-gold); letter-spacing: 0.05em;">BLUETOOTH
+              LOW ENERGY</span>
+            <div style="width: 70px; height: 2px; background: var(--accent-champagne);"></div>
+          </div>
+          <div style="font-weight: 700; font-size: 0.82rem;">MODULO SEFTY<br><span
+              style="font-size: 0.72rem; font-weight: 400; color: var(--text-muted);">GNSS · LTE-M · SiP ·
+              BATTERIA</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-controller">
+    <span class="slider-label">Apertura Esploso 3D</span>
+    <div class="slider-container">
+      <input type="range" id="explodeSlider" min="0" max="100" value="0" oninput="onExplodeSlider(this.value)" />
+      <span id="sliderValue" style="font-size: 0.78rem; font-weight: 700; min-width: 36px;">0%</span>
+    </div>
+    <span class="hint-text">Trascina per disassemblare</span>
+  </div>
+
+  <div class="legal-note">Concept in fase di ingegnerizzazione · Documento confidenziale I3P</div>
+  <div class="motto-note">MINIMO INGOMBRO. MASSIMA INTEGRAZIONE.</div>
+
+  <div class="preview-modal" id="imageModal" onclick="closePreview()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="close-modal" onclick="closePreview()">&times;</button>
+      <img src="exports/sefty_soluzione_B_componenti_3D.png" alt="Scheda SEFTY Soluzione B" />
+    </div>
+  </div>
+
+  <script>
+    let scene, camera, renderer, controls;
+    let braceletGroup, pebbleGroup;
+    let braceletLayers = [];
+    let pebbleLayers = [];
+    let explodeProgress = 0;
+    let targetCameraPos = new THREE.Vector3(0, 3, 14);
+    let targetLookAt = new THREE.Vector3(0, 0, 0);
+
+    const champagneColor = 0xD4C5B0;
+    const darkMetalColor = 0x2C2A28;
+    const goldColor = 0xC4A265;
+    const pcbGreen = 0x1E3B2B;
+    const batterySilver = 0xCCCCCC;
+
+    function init() {
+      const container = document.getElementById('canvas-container');
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xF8F6F0);
+      scene.fog = new THREE.FogExp2(0xF8F6F0, 0.02);
+
+      camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.copy(targetCameraPos);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxPolarAngle = Math.PI / 2 + 0.1;
+      controls.minDistance = 4;
+      controls.maxDistance = 25;
+      controls.target.copy(targetLookAt);
+
+      setupLighting();
+
+      createAuraBracelet();
+      createSeftyPebble();
+
+      const shadowPlaneGeo = new THREE.PlaneGeometry(50, 50);
+      const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+      const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
+      shadowPlane.rotation.x = -Math.PI / 2;
+      shadowPlane.position.y = -2.5;
+      shadowPlane.receiveShadow = true;
+      scene.add(shadowPlane);
+
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('scroll', onWindowScroll);
+
+      animate();
+    }
+
+    function setupLighting() {
+      const ambientLight = new THREE.AmbientLight(0xFFFAF2, 1.2);
+      scene.add(ambientLight);
+
+      const mainLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);
+      mainLight.position.set(8, 15, 10);
+      mainLight.castShadow = true;
+      mainLight.shadow.mapSize.width = 2048;
+      mainLight.shadow.mapSize.height = 2048;
+      mainLight.shadow.camera.near = 0.5;
+      mainLight.shadow.camera.far = 30;
+      mainLight.shadow.bias = -0.0001;
+      scene.add(mainLight);
+
+      const fillLight = new THREE.DirectionalLight(0xEAE4D8, 0.8);
+      fillLight.position.set(-10, 8, -6);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.PointLight(0xFFE8D0, 1.2, 20);
+      rimLight.position.set(0, -2, 6);
+      scene.add(rimLight);
+    }
+
+    function createAuraBracelet() {
+      braceletGroup = new THREE.Group();
+      braceletGroup.position.set(-3.2, 0, 0);
+
+      const champagneMat = new THREE.MeshStandardMaterial({
+        color: champagneColor,
+        metalness: 0.85,
+        roughness: 0.28,
+      });
+
+      const titaniumMat = new THREE.MeshStandardMaterial({
+        color: 0x3A3733,
+        metalness: 0.7,
+        roughness: 0.4,
+      });
+
+      const pcbMat = new THREE.MeshStandardMaterial({
+        color: pcbGreen,
+        metalness: 0.3,
+        roughness: 0.5,
+      });
+
+      const goldMat = new THREE.MeshStandardMaterial({
+        color: goldColor,
+        metalness: 0.9,
+        roughness: 0.2,
+      });
+
+      const batteryMat = new THREE.MeshStandardMaterial({
+        color: batterySilver,
+        metalness: 0.6,
+        roughness: 0.3,
+      });
+
+      // Layer 1: Top Outer Shell
+      const topShellGeo = new THREE.TorusGeometry(2.2, 0.18, 24, 64, Math.PI * 1.8);
+      const topShell = new THREE.Mesh(topShellGeo, champagneMat);
+      topShell.rotation.x = Math.PI / 2;
+      topShell.castShadow = true;
+      topShell.receiveShadow = true;
+      braceletLayers.push({ mesh: topShell, explodeY: 2.2, explodeZ: -0.5 });
+      braceletGroup.add(topShell);
+
+      // Layer 2: SOS Switch
+      const sosGeo = new THREE.BoxGeometry(0.5, 0.1, 0.18);
+      const sosMesh = new THREE.Mesh(sosGeo, goldMat);
+      sosMesh.position.set(0, 0, 2.2);
+      sosMesh.castShadow = true;
+      braceletLayers.push({ mesh: sosMesh, explodeY: 1.5, explodeZ: 0.2 });
+      braceletGroup.add(sosMesh);
+
+      // Layer 3: FPCB (MCU + BLE)
+      const pcbGeo = new THREE.TorusGeometry(2.18, 0.08, 16, 48, Math.PI * 1.2);
+      const pcbMesh = new THREE.Mesh(pcbGeo, pcbMat);
+      pcbMesh.rotation.x = Math.PI / 2;
+      pcbMesh.castShadow = true;
+      braceletLayers.push({ mesh: pcbMesh, explodeY: 0.8, explodeZ: 0 });
+      braceletGroup.add(pcbMesh);
+
+      // Layer 4: LRA Haptic Motor
+      const hapticGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.08, 24);
+      const hapticMesh = new THREE.Mesh(hapticGeo, goldMat);
+      hapticMesh.position.set(-1.2, 0, 1.6);
+      braceletLayers.push({ mesh: hapticMesh, explodeY: 0.2, explodeZ: 0.4 });
+      braceletGroup.add(hapticMesh);
+
+      // Layer 5: Curved Li-Po Battery
+      const batGeo = new THREE.TorusGeometry(2.16, 0.09, 16, 32, Math.PI * 0.7);
+      const batMesh = new THREE.Mesh(batGeo, batteryMat);
+      batMesh.rotation.x = Math.PI / 2;
+      batMesh.rotation.z = Math.PI * 0.6;
+      batMesh.castShadow = true;
+      braceletLayers.push({ mesh: batMesh, explodeY: -0.6, explodeZ: 0 });
+      braceletGroup.add(batMesh);
+
+      // Layer 6: Titanium Chassis Frame
+      const chassisGeo = new THREE.TorusGeometry(2.14, 0.06, 16, 48, Math.PI * 1.7);
+      const chassisMesh = new THREE.Mesh(chassisGeo, titaniumMat);
+      chassisMesh.rotation.x = Math.PI / 2;
+      braceletLayers.push({ mesh: chassisMesh, explodeY: -1.4, explodeZ: 0 });
+      braceletGroup.add(chassisMesh);
+
+      // Layer 7: Mechanical Snap Lock (Hidden, non-magnetic)
+      const lockGeo = new THREE.BoxGeometry(0.35, 0.16, 0.22);
+      const lockMesh = new THREE.Mesh(lockGeo, champagneMat);
+      lockMesh.position.set(0, 0, -2.2);
+      braceletLayers.push({ mesh: lockMesh, explodeY: -2.0, explodeZ: -0.4 });
+      braceletGroup.add(lockMesh);
+
+      scene.add(braceletGroup);
+    }
+
+    function createSeftyPebble() {
+      pebbleGroup = new THREE.Group();
+      pebbleGroup.position.set(3.2, 0, 0);
+
+      const champagneMat = new THREE.MeshStandardMaterial({
+        color: champagneColor,
+        metalness: 0.85,
+        roughness: 0.28,
+      });
+
+      const darkChassisMat = new THREE.MeshStandardMaterial({
+        color: darkMetalColor,
+        metalness: 0.5,
+        roughness: 0.5,
+      });
+
+      const pcbMat = new THREE.MeshStandardMaterial({
+        color: 0x1F4532,
+        metalness: 0.3,
+        roughness: 0.4,
+      });
+
+      const chipMat = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        metalness: 0.2,
+        roughness: 0.3,
+      });
+
+      const antennaMat = new THREE.MeshStandardMaterial({
+        color: 0xB87333,
+        metalness: 0.8,
+        roughness: 0.2,
+      });
+
+      const batteryMat = new THREE.MeshStandardMaterial({
+        color: batterySilver,
+        metalness: 0.7,
+        roughness: 0.25,
+      });
+
+      // Layer 1: Top Pebble Shell
+      const topShellGeo = new THREE.CylinderGeometry(1.6, 1.8, 0.35, 32);
+      topShellGeo.scale(1, 1, 1.25);
+      const topPebbleShell = new THREE.Mesh(topShellGeo, champagneMat);
+      topPebbleShell.castShadow = true;
+      pebbleLayers.push({ mesh: topPebbleShell, explodeY: 2.4 });
+      pebbleGroup.add(topPebbleShell);
+
+      // Layer 2: Multiband Flex Antenna
+      const antGeo = new THREE.BoxGeometry(2.4, 0.02, 1.8);
+      const antMesh = new THREE.Mesh(antGeo, antennaMat);
+      antMesh.castShadow = true;
+      pebbleLayers.push({ mesh: antMesh, explodeY: 1.6 });
+      pebbleGroup.add(antMesh);
+
+      // Layer 3: Motherboard PCB with Nordic SiP & GNSS Chips
+      const pcbGroup = new THREE.Group();
+      const pcbGeo = new THREE.BoxGeometry(2.5, 0.06, 2.0);
+      const mainPcb = new THREE.Mesh(pcbGeo, pcbMat);
+      mainPcb.castShadow = true;
+      pcbGroup.add(mainPcb);
+
+      const sipGeo = new THREE.BoxGeometry(0.7, 0.08, 0.7);
+      const sipMesh = new THREE.Mesh(sipGeo, chipMat);
+      sipMesh.position.set(-0.5, 0.05, -0.3);
+      pcbGroup.add(sipMesh);
+
+      const gnssGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
+      const gnssMesh = new THREE.Mesh(gnssGeo, chipMat);
+      gnssMesh.position.set(0.6, 0.05, 0.4);
+      pcbGroup.add(gnssMesh);
+
+      pebbleLayers.push({ mesh: pcbGroup, explodeY: 0.7 });
+      pebbleGroup.add(pcbGroup);
+
+      // Layer 4: Battery Pack
+      const batGeo = new THREE.BoxGeometry(2.2, 0.35, 1.8);
+      const batMesh = new THREE.Mesh(batGeo, batteryMat);
+      batMesh.castShadow = true;
+      pebbleLayers.push({ mesh: batMesh, explodeY: -0.4 });
+      pebbleGroup.add(batMesh);
+
+      // Layer 5: IP68 Chassis
+      const chassisGeo = new THREE.BoxGeometry(2.8, 0.25, 2.3);
+      const chassisMesh = new THREE.Mesh(chassisGeo, darkChassisMat);
+      pebbleLayers.push({ mesh: chassisMesh, explodeY: -1.4 });
+      pebbleGroup.add(chassisMesh);
+
+      // Layer 6: Bottom Shell
+      const btmShellGeo = new THREE.CylinderGeometry(1.8, 1.5, 0.35, 32);
+      btmShellGeo.scale(1, 1, 1.25);
+      const btmShell = new THREE.Mesh(btmShellGeo, champagneMat);
+      btmShell.castShadow = true;
+      pebbleLayers.push({ mesh: btmShell, explodeY: -2.3 });
+      pebbleGroup.add(btmShell);
+
+      scene.add(pebbleGroup);
+    }
+
+    function applyExplode(factor) {
+      explodeProgress = factor;
+
+      braceletLayers.forEach(l => {
+        l.mesh.position.y = l.explodeY * factor;
+        if (l.explodeZ) l.mesh.position.z = (l.mesh.position.z || 0) + l.explodeZ * factor * 0.1;
+      });
+
+      pebbleLayers.forEach(l => {
+        l.mesh.position.y = l.explodeY * factor;
+      });
+    }
+
+    function onExplodeSlider(val) {
+      const factor = val / 100;
+      document.getElementById('sliderValue').innerText = val + '%';
+      applyExplode(factor);
+    }
+
+    function goToSection(index) {
+      const sectionHeight = window.innerHeight;
+      window.scrollTo({
+        top: index * sectionHeight,
+        behavior: 'smooth'
+      });
+
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+      });
+    }
+
+    function onWindowScroll() {
+      const scrollY = window.scrollY;
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(Math.max(scrollY / totalScroll, 0), 1);
+
+      const slider = document.getElementById('explodeSlider');
+      let targetFactor = 0;
+
+      if (progress < 0.2) {
+        targetFactor = progress * 2.5;
+        targetCameraPos.set(0, 3, 14);
+        targetLookAt.set(0, 0, 0);
+      } else if (progress < 0.55) {
+        targetFactor = 0.85;
+        targetCameraPos.set(-3.5, 2.5, 9);
+        targetLookAt.set(-3.2, 0, 0);
+      } else if (progress < 0.85) {
+        targetFactor = 0.85;
+        targetCameraPos.set(3.5, 2.5, 9);
+        targetLookAt.set(3.2, 0, 0);
+      } else {
+        targetFactor = 0.4;
+        targetCameraPos.set(0, 4, 15);
+        targetLookAt.set(0, 0, 0);
+      }
+
+      slider.value = Math.round(targetFactor * 100);
+      document.getElementById('sliderValue').innerText = slider.value + '%';
+      applyExplode(targetFactor);
+
+      const navIndex = Math.min(Math.floor(progress * 3.99), 3);
+      document.querySelectorAll('.nav-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === navIndex);
+      });
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function openPreview() {
+      document.getElementById('imageModal').classList.add('active');
+    }
+
+    function closePreview() {
+      document.getElementById('imageModal').classList.remove('active');
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      TWEEN.update();
+
+      camera.position.lerp(targetCameraPos, 0.05);
+      controls.target.lerp(targetLookAt, 0.05);
+      controls.update();
+
+      if (braceletGroup && pebbleGroup) {
+        braceletGroup.rotation.y = Math.sin(Date.now() * 0.0005) * 0.15;
+        pebbleGroup.rotation.y = -Math.sin(Date.now() * 0.0005) * 0.15;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    window.onload = init;
+  </script>
+</body>
+
+</html>
